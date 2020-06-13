@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Board from './Board.jsx';
+import { getNextPlayer, findWinner, isBoardFull } from '../utils/gameUtil';
 
 // This component will
 // - keep track of board state
@@ -8,45 +9,29 @@ import Board from './Board.jsx';
 // - keep track of whether the game is over
 // - allow starting a new game for now, except maybe I'll move that out later if I want a leaderboard
 // - for now there is no computer, but eventually, who is the computer, and who plays first
+// - allow extending this to bigger boards?
 // X will always start, but who will be the first player?
-const PLAYERS = ['X', 'O'];
 
 function Game() {
+  // choice I'm making: only keep things on state that can't be derived from state
   const [board, setBoard] = useState(Array(9).fill(null)); // LEENA: possibly dry empty array creation
-
-  const getNextPlayer = () => {
-    const numberOfFilledFields = board.reduce(
-      (sum, value) => (!!value ? sum + 1 : sum),
-      0
-    );
-    const nextPlayer = PLAYERS[numberOfFilledFields % 2]; // X for odd number of fields played, O otherwise
-    return nextPlayer;
-  };
-
-  const findWinner = () => {
-    return null;
-  };
-
-  const isBoardFull = () => {
-    const gotPlayed = (fieldValue) => !!fieldValue; // if value in a field is truthy, that field got played
-    return board.every(gotPlayed);
-  };
 
   const startNewGame = () => {
     setBoard(Array(9).fill(null));
   };
 
   const playField = (index) => {
-    const nextPlayer = getNextPlayer();
+    const nextPlayer = getNextPlayer(board);
     setBoard((oldBoard) =>
       oldBoard.map((val, i) => (i === index ? nextPlayer : val))
     );
   };
 
-  const winner = findWinner();
-  const boardIsFull = isBoardFull();
+  const winner = findWinner(board);
+  const boardIsFull = isBoardFull(board);
 
   // LEENA: make this prettier
+  // LEENA: disable entire board when someone won
   return (
     <div>
       {winner && `${winner} won!`}
