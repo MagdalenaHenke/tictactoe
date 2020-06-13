@@ -21,6 +21,7 @@ import '../styles/Game.css';
 // - considered using styled components because that would have been fuuuuuun
 // - I'm choosing to define all my css myself instead of using bootstrap / bulma...cause I think then there's less bloat
 // - on game end, move focus to "start new game" button
+// - maybe FINALLY get to play with focus-visible
 // - I'm chosing to only care about this in chrome
 
 function Game({ difficulty = DIFFICULTY.EASY, firstPlayer }) {
@@ -65,11 +66,13 @@ function Game({ difficulty = DIFFICULTY.EASY, firstPlayer }) {
   if (winner) statusText = `${winner} won!`;
   else if (boardIsFull) statusText = 'We have a tie!';
 
+  const gameIsOver = winner || boardIsFull;
+
   return (
     <div className="Game">
       <h1>Tic Tac Toe</h1>
       <div>{statusText}</div>
-      <Board board={board} playField={playField} />
+      <Board board={board} playField={playField} gameIsOver={gameIsOver} />
       <button className="Game-button" onClick={startNewGame}>
         Start New Game
       </button>

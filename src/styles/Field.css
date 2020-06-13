@@ -8,7 +8,7 @@
   border: inherit;
 }
 
-.Field:hover {
+.Field:hover:not(:disabled) {
   cursor: pointer;
 }
 
