@@ -1,5 +1,6 @@
 import React from 'react';
 import Field from './Field.jsx';
+import '../styles/Board.css';
 
 // this component will display all the fields
 // LEENA: obviously, make this better
@@ -10,18 +11,18 @@ function Board({ board, playField }) {
 
   // LEENA: maybe automate rendering rows
   return (
-    <div>
-      <div>
+    <div className="Board">
+      <div className="Board-row">
         {getField(0)}
         {getField(1)}
         {getField(2)}
       </div>
-      <div>
+      <div className="Board-row">
         {getField(3)}
         {getField(4)}
         {getField(5)}
       </div>
-      <div>
+      <div className="Board-row">
         {getField(6)}
         {getField(7)}
         {getField(8)}

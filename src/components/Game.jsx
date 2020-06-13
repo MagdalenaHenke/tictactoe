@@ -11,10 +11,11 @@ import { DIFFICULTY, autoPlayerTurn } from '../utils/autoPlayerUtil';
 // - allow starting a new game for now, except maybe I'll move that out later if I want a leaderboard
 // - for now there is no computer, but eventually, who is the computer, and who plays first
 // - allow extending this to bigger boards?
-// - some cool thing, highlight the winning row?
+// - some cool thing, highlight/color the winning row?
 // X will always start, but who will be the first player?
 // assumption I'm making: you all double down on arrow functions
 // - choices made: I'm letting prettier make all of my choices
+// - I'm choosing to define all my css myself instead of using bootstrap / bulma...cause I think then there's less bloat
 
 function Game({ difficulty = DIFFICULTY.EASY, firstPlayer }) {
   // maybe these live on state, depends

@@ -1,0 +1,8 @@
+/* Leena: maybe these don't all need to be separate files */
+.Board {
+  padding: 2rem 0;
+}
+
+.Board-row {
+  display: flex;
+}

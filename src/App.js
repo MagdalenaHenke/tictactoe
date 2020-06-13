@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css';
+import './styles/App.css';
 import Game from './components/Game.jsx';
 
 function App() {
   return (
-    <main>
+    <main className="App">
       Tic Tac Toe
       <Game />
     </main>
