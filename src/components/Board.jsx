@@ -7,7 +7,12 @@ function Board({ board, playField }) {
   return (
     <div className="Board">
       {board.map((value, i) => (
-        <Field key={i} value={board[i]} onClick={() => playField(i)} />
+        <Field
+          key={i}
+          position={i + 1}
+          playedBy={board[i]}
+          onClick={() => playField(i)}
+        />
       ))}
     </div>
   );
