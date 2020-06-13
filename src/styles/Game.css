@@ -1,0 +1,28 @@
+.Game {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.Game-button {
+  display: inline-block;
+  border-radius: 4px;
+  padding: 1rem;
+  margin: 0.5rem 1rem;
+  background: transparent;
+  color: black;
+  border: 2px solid black;
+}
+
+.Game-button:hover {
+  cursor: pointer; /* I know this is repetitive, but also clear */
+}
+
+.Game-button:active,
+.Game-button:focus {
+  outline: none;
+  background-color: lightgrey;
+}

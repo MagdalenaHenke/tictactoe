@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Board from './Board.jsx';
 import { getNextPlayer, findWinner, isBoardFull } from '../utils/boardUtil';
 import { DIFFICULTY, autoPlayerTurn } from '../utils/autoPlayerUtil';
+import '../styles/Game.css';
 
 // This component will
 // - keep track of board state
@@ -15,9 +16,12 @@ import { DIFFICULTY, autoPlayerTurn } from '../utils/autoPlayerUtil';
 // X will always start, but who will be the first player?
 // assumption I'm making: you all double down on arrow functions
 // - choices made: I'm letting prettier make all of my choices
+// - maybe add keyboard interactions? up and down and stuff
+// - on click, set focus back to the first free element in the board
 // - considered using styled components because that would have been fuuuuuun
 // - I'm choosing to define all my css myself instead of using bootstrap / bulma...cause I think then there's less bloat
-// - deploy to heroku
+// - on game end, move focus to "start new game" button
+// - I'm chosing to only care about this in chrome
 
 function Game({ difficulty = DIFFICULTY.EASY, firstPlayer }) {
   // maybe these live on state, depends
@@ -39,7 +43,7 @@ function Game({ difficulty = DIFFICULTY.EASY, firstPlayer }) {
       const newBoard = oldBoard.map((val, i) =>
         i === index ? nextPlayer : val
       );
-      if (!findWinner(newBoard)) {
+      if (!findWinner(newBoard) && !isBoardFull(newBoard)) {
         // only let the computer play if we haven't won
         // Leena: this is mildly gross redo this
         const fieldToPlayByComputer = autoPlayerTurn[difficulty](newBoard); // pull this out and add a delay
@@ -49,17 +53,26 @@ function Game({ difficulty = DIFFICULTY.EASY, firstPlayer }) {
     });
   };
 
+  // maybe just fold these under below?
   const winner = findWinner(board);
   const boardIsFull = isBoardFull(board);
+  const nextPlayer = getNextPlayer(board);
 
   // LEENA: make this prettier
   // LEENA: disable entire board when someone won
+  // LEENA: maybe state machine this?
+  let statusText = `Next up: ${nextPlayer}`;
+  if (winner) statusText = `${winner} won!`;
+  else if (boardIsFull) statusText = 'We have a tie!';
+
   return (
-    <div>
-      {winner && `${winner} won!`}
-      {!winner && boardIsFull && 'We have a tie!'}
+    <div className="Game">
+      <h1>Tic Tac Toe</h1>
+      <div>{statusText}</div>
       <Board board={board} playField={playField} />
-      <button onClick={startNewGame}>Start New Game</button>
+      <button className="Game-button" onClick={startNewGame}>
+        Start New Game
+      </button>
     </div>
   );
 }

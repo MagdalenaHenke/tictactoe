@@ -11,7 +11,7 @@ const autoPlayerPickRandomField = (board) => {
   const r = Math.floor(Math.random() * numberOfEmptyFields);
   let count = 0;
   let i = 0;
-  while (count <= r) {
+  while (i <= board.length) {
     if (!board[i] && count === r) return i;
     if (!board[i]) count++;
     i++;

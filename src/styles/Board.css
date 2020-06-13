@@ -1,6 +1,9 @@
 /* Leena: maybe these don't all need to be separate files */
 .Board {
-  padding: 2rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 2rem 0;
+  border: 1px solid black;
 }
 
 .Board-row {

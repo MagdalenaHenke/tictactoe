@@ -1,4 +1,18 @@
 .Field {
   width: 3rem; /* Leena: make this responsive */
   height: 3rem;
+
+  border-radius: 0;
+  background: transparent;
+  color: black;
+  border: inherit;
+}
+
+.Field:hover {
+  cursor: pointer;
+}
+
+.Field:focus {
+  outline: none;
+  background: lightgrey;
 }
