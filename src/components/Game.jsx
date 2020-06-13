@@ -15,7 +15,9 @@ import { DIFFICULTY, autoPlayerTurn } from '../utils/autoPlayerUtil';
 // X will always start, but who will be the first player?
 // assumption I'm making: you all double down on arrow functions
 // - choices made: I'm letting prettier make all of my choices
+// - considered using styled components because that would have been fuuuuuun
 // - I'm choosing to define all my css myself instead of using bootstrap / bulma...cause I think then there's less bloat
+// - deploy to heroku
 
 function Game({ difficulty = DIFFICULTY.EASY, firstPlayer }) {
   // maybe these live on state, depends
