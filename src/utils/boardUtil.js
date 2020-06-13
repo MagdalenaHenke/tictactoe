@@ -1,13 +1,14 @@
 // LEENA: pull all of these out into helper functions
 const PLAYERS = ['X', 'O']; // maybe share this
 
+const numberOfTurnsPlayed = (board) => {
+  return board.reduce((sum, value) => (!!value ? sum + 1 : sum), 0);
+};
+
 // LEENA: comment on all of these functions
 const getNextPlayer = (board) => {
-  const numberOfFilledFields = board.reduce(
-    (sum, value) => (!!value ? sum + 1 : sum),
-    0
-  );
-  const nextPlayer = PLAYERS[numberOfFilledFields % 2]; // X for odd number of fields played, O otherwise
+  const turnsPlayed = numberOfTurnsPlayed(board);
+  const nextPlayer = PLAYERS[turnsPlayed % 2]; // X for odd number of fields played, O otherwise
   return nextPlayer;
 };
 
@@ -39,4 +40,4 @@ const isBoardFull = (board) => {
   return board.every(gotPlayed);
 };
 
-export { getNextPlayer, findWinner, isBoardFull, PLAYERS };
+export { numberOfTurnsPlayed, getNextPlayer, findWinner, isBoardFull, PLAYERS };
