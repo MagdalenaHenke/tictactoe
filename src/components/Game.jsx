@@ -70,7 +70,7 @@ function Game({ difficulty = DIFFICULTY.EASY, firstPlayer }) {
 
   return (
     <div className="Game">
-      <h1>Tic Tac Toe</h1>
+      <h1 className="Game-title">Tic Tac Toe</h1>
       <div>{statusText}</div>
       <Board board={board} playField={playField} gameIsOver={gameIsOver} />
       <button className="Game-button" onClick={startNewGame}>

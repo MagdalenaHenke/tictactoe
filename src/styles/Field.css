@@ -8,10 +8,7 @@
   border: inherit;
 }
 
-.Field:hover:not(:disabled) {
-  cursor: pointer;
-}
-
+.Field:hover:not(:disabled),
 .Field:focus {
   outline: none;
   background: lightgrey;

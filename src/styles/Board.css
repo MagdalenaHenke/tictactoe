@@ -1,15 +1,12 @@
 /* Leena: maybe these don't all need to be separate files */
-fieldset.Board {
-  /* Leena: think about just doing a generic css reset */
-  border: 0;
-  padding: 0;
-  margin: 0;
-  min-width: 0;
+.Board {
+  margin: 2rem 0;
 }
 
 .Board-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin: 2rem 0;
+  grid-template-columns: repeat(3, 1fr);
   border: 1px solid black;
+  width: fit-content;
+  margin: auto;
 }
