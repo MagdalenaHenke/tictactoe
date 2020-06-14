@@ -27,6 +27,7 @@ import '../styles/Game.css';
 // - I started out with easy being just random...that was very boring
 // - for forcing a draw / being unbeatable: both always make me cross my threes, and always make him not cross his threes
 // - choice: handling display logic in css and leveraging the power of html over introducing react
+// - choice: waiting for a moment before displaying computer turn all happens through css - the board state is updated all in one
 
 function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
   // maybe these live on state, depends
@@ -43,19 +44,18 @@ function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
   // playing a field is the same as also the computer playing a field
   // LEENA: maybe this should be a good old use Reducer
   const playField = (index) => {
-    // immediately play the computers turn for now, but maybe wait a moment
-    const nextPlayer = brd.nextPlayer(board);
     setBoard((oldBoard) => {
-      const newBoard = oldBoard.map((val, i) =>
-        i === index ? nextPlayer : val
-      );
-      if (!brd.winner(newBoard) && !brd.isFull(newBoard)) {
-        // only let the computer play if we haven't won
-        // Leena: this is mildly gross redo this
-        const fieldToPlayByComputer = autoPlayer.takeTurn(newBoard, difficulty); // pull this out and add a delay
-        newBoard[fieldToPlayByComputer] = 'O'; // LEENA: don't hardcode this
+      const newBoard = oldBoard.slice();
+      newBoard[index] = brd.nextPlayer(oldBoard);
+
+      // only let the computer play if we haven't won
+      if (brd.winner(newBoard) || brd.isFull(newBoard)) {
+        return newBoard;
+      } else {
+        const fieldToPlayByComputer = autoPlayer.takeTurn(newBoard, difficulty);
+        newBoard[fieldToPlayByComputer] = brd.nextPlayer(newBoard);
+        return newBoard;
       }
-      return newBoard;
     });
   };
 
@@ -63,15 +63,14 @@ function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
   const winner = brd.winner(board);
   const isBoardFull = brd.isFull(board);
   const nextPlayer = brd.nextPlayer(board);
+  const isGameOver = winner || isBoardFull;
 
   // LEENA: make this prettier
   // LEENA: disable entire board when someone won
   // LEENA: maybe state machine this?
-  let statusText = `Next up: ${nextPlayer}`;
+  let statusText = `Next up: ${nextPlayer}`; // LEENA: edit this, just make it indicator of who you're playing as
   if (winner) statusText = `${winner} won!`;
   else if (isBoardFull) statusText = 'We have a tie!';
-
-  const isGameOver = winner || isBoardFull;
 
   return (
     <div className="Game">
