@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Board from './Board.jsx';
 import StartPlayerPicker from './StartPlayerPicker.jsx';
+import DifficultyPicker from './DifficultyPicker.jsx';
 import * as brd from '../utils/boardUtil';
 import * as autoPlayer from '../utils/autoPlayerUtil';
 import '../styles/Game.css';
@@ -28,12 +29,13 @@ import '../styles/Game.css';
 // - choice: I'm chosing to only build this for chrome because that was fun
 // - keep some tally/leaderboard of how many games were won?
 // - push something to local state to allow for refresh?
+// - for now just on laptop, but make layout work on mobile!
+// - accessibility concerns
+// - I don't think I'm minifying anything
 
-function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
-  // maybe these live on state, depends
-  // LEENA: use the firstPlayer
-  // LEENA: for now, human is always first player, allow passing in who is first player
+function Game() {
   // choice I'm making: only keep things on state that can't be derived from state
+  const [difficulty, setDifficulty] = useState(autoPlayer.DIFFICULTY.EASY);
   const [nextGameComputerPlays, setNextGameComputerPlays] = useState('O');
   const [computerPlays, setComputerPlays] = useState('O'); // LEENA: rename this
   const [board, setBoard] = useState(brd.newBoard(computerPlays));
@@ -88,17 +90,20 @@ function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
               computerPlays={computerPlays}
             />
           </div>
-          <div className="Game-layout--options">
-            {/* difficulty picker will go here, too */}
-            <StartPlayerPicker
-              nextGameComputerPlays={nextGameComputerPlays}
-              setNextGameComputerPlays={setNextGameComputerPlays}
-            />
-          </div>
           <div className="Game-layout--button">
             <button className="Game-button" onClick={startNewGame}>
               Start New Game
             </button>
+          </div>
+          <div className="Game-layout--options">
+            <DifficultyPicker
+              difficulty={difficulty}
+              setDifficulty={setDifficulty}
+            />
+            <StartPlayerPicker
+              nextGameComputerPlays={nextGameComputerPlays}
+              setNextGameComputerPlays={setNextGameComputerPlays}
+            />
           </div>
         </div>
       </div>

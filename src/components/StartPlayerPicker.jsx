@@ -1,31 +1,27 @@
 import React from 'react';
-import '../styles/StartPlayerPicker.css';
+import Picker from './Picker.jsx';
 
 function StartPlayerPicker({
   nextGameComputerPlays,
   setNextGameComputerPlays
 }) {
-  const getRadioButton = (player) => (
-    <input
-      type="radio"
-      name="startingPlayer"
-      checked={nextGameComputerPlays === player}
-      onChange={() => setNextGameComputerPlays(player)}
-    />
-  );
-
   return (
-    <fieldset>
-      <legend>Who starts new games?</legend>
-      <label className="StartPlayerPicker-label">
-        {getRadioButton('O')}
-        Me
-      </label>
-      <label className="StartPlayerPicker-label">
-        {getRadioButton('X')}
-        The computer
-      </label>
-    </fieldset>
+    <Picker
+      legendText="Who starts new games?"
+      name="startPlayerPicker"
+      checkedValue={nextGameComputerPlays}
+      onChange={setNextGameComputerPlays}
+      options={[
+        {
+          label: 'Me',
+          value: 'O' // LEENA: don't use strings
+        },
+        {
+          label: 'The computer',
+          value: 'X'
+        }
+      ]}
+    />
   );
 }
 
