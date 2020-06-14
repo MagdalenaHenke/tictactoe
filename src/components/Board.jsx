@@ -3,9 +3,9 @@ import Field from './Field.jsx';
 import '../styles/Board.css';
 
 // this component will display all the fields
-function Board({ board, playField, gameIsOver }) {
+function Board({ board, playField, isGameOver }) {
   return (
-    <fieldset className="Board" disabled={gameIsOver}>
+    <fieldset className="Board" disabled={isGameOver}>
       {/* disabled all buttons when game is over to prevent further moves */}
       <legend className="visually-hidden">
         TicTacToe fields, numbered 1 - 9

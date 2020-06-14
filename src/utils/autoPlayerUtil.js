@@ -1,4 +1,4 @@
-import { numberOfTurnsPlayed } from '../utils/boardUtil';
+import * as brd from '../utils/boardUtil';
 
 const DIFFICULTY = {
   // export these?
@@ -6,8 +6,8 @@ const DIFFICULTY = {
   HARD: 'hard'
 };
 
-const autoPlayerPickRandomField = (board) => {
-  const numberOfEmptyFields = 9 - numberOfTurnsPlayed(board);
+const pickRandomField = (board) => {
+  const numberOfEmptyFields = 9 - brd.numTurnsPlayed(board);
   const r = Math.floor(Math.random() * numberOfEmptyFields);
   let count = 0;
   let i = 0;
@@ -18,11 +18,12 @@ const autoPlayerPickRandomField = (board) => {
   }
 };
 
-const bestField = (board) => {}; // Think about algorithm for this
+const pickBestField = (board) => {}; // Think about algorithm for this
 
-const autoPlayerTurn = {
-  [DIFFICULTY.EASY]: autoPlayerPickRandomField,
-  [DIFFICULTY.HARD]: bestField // later turn this into bestField
+const takeTurn = function(board, difficulty = DIFFICULTY.EASY) {
+  if (difficulty === DIFFICULTY.EASY) return pickRandomField(board);
+  if (difficulty === DIFFICULTY.HARD) return pickBestField(board);
+  console.log("Check your difficulties, you're using one I don't know of.");
 };
 
-export { DIFFICULTY, autoPlayerPickRandomField, autoPlayerTurn };
+export { DIFFICULTY, pickRandomField, takeTurn };

@@ -1,19 +1,19 @@
 // LEENA: pull all of these out into helper functions
 const PLAYERS = ['X', 'O']; // maybe share this
 
-const numberOfTurnsPlayed = (board) => {
+const numTurnsPlayed = (board) => {
   return board.reduce((sum, value) => (!!value ? sum + 1 : sum), 0);
 };
 
 // LEENA: comment on all of these functions
-const getNextPlayer = (board) => {
-  const turnsPlayed = numberOfTurnsPlayed(board);
+const nextPlayer = (board) => {
+  const turnsPlayed = numTurnsPlayed(board);
   const nextPlayer = PLAYERS[turnsPlayed % 2]; // X for odd number of fields played, O otherwise
   return nextPlayer;
 };
 
 // LEENA: maybe clean this up
-const findWinner = (board) => {
+const winner = (board) => {
   const whoTickedAll = (fields) => {
     if (fields.every((field) => field === PLAYERS[0])) return PLAYERS[0];
     if (fields.every((field) => field === PLAYERS[1])) return PLAYERS[1];
@@ -35,9 +35,9 @@ const findWinner = (board) => {
   return whoTickedAll(diagonal1) || whoTickedAll(diagonal2) || null;
 };
 
-const isBoardFull = (board) => {
+const isFull = (board) => {
   const gotPlayed = (fieldValue) => !!fieldValue; // if value in a field is truthy, that field got played
   return board.every(gotPlayed);
 };
 
-export { numberOfTurnsPlayed, getNextPlayer, findWinner, isBoardFull, PLAYERS };
+export { numTurnsPlayed, nextPlayer, winner, isFull, PLAYERS };
