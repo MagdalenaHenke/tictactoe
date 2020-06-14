@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Board from './Board.jsx';
+import StartPlayerPicker from './StartPlayerPicker.jsx';
 import * as brd from '../utils/boardUtil';
 import * as autoPlayer from '../utils/autoPlayerUtil';
 import '../styles/Game.css';
@@ -33,11 +34,13 @@ function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
   // LEENA: use the firstPlayer
   // LEENA: for now, human is always first player, allow passing in who is first player
   // choice I'm making: only keep things on state that can't be derived from state
+  const [nextGameComputerPlays, setNextGameComputerPlays] = useState('O');
   const [computerPlays, setComputerPlays] = useState('O'); // LEENA: rename this
   const [board, setBoard] = useState(brd.newBoard(computerPlays));
 
   const startNewGame = () => {
-    setBoard(brd.newBoard(computerPlays));
+    setComputerPlays(nextGameComputerPlays); // LEENA: this really might be nicer with a state reducer
+    setBoard(brd.newBoard(nextGameComputerPlays));
   };
 
   // playing a field is the same as also the computer playing a field
@@ -82,6 +85,10 @@ function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
       <button className="Game-button" onClick={startNewGame}>
         Start New Game
       </button>
+      <StartPlayerPicker
+        nextGameComputerPlays={nextGameComputerPlays}
+        setNextGameComputerPlays={setNextGameComputerPlays}
+      />
     </div>
   );
 }
