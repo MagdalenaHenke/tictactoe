@@ -33,6 +33,11 @@
 .Game-layout--options {
   grid-column: 3;
   grid-row: 2;
+  /* LEENA: maybe this is easier with some grid stuff */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-around;
 }
 
 .Game-button {

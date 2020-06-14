@@ -31,7 +31,10 @@ import '../styles/Game.css';
 // - push something to local state to allow for refresh?
 // - for now just on laptop, but make layout work on mobile!
 // - accessibility concerns
+// - use built in css reset
+// - do custom focus states and stuff to look better on firefox
 // - I don't think I'm minifying anything
+// - looks like you can use sass. nifty. do that.
 
 function Game() {
   // choice I'm making: only keep things on state that can't be derived from state

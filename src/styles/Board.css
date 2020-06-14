@@ -26,6 +26,10 @@
 
 /* below classes position the line to cross through winning line */
 /* LEENA: make line also have a delay when computer won */
+/* LEENA turns out you can totally use sass so probably do some mixin magic
+with that
+https://create-react-app.dev/docs/adding-a-sass-stylesheet/
+*/
 .Board-line--r0 {
   top: 1.5rem; /* LEENA: do this with button size variable */
 }
