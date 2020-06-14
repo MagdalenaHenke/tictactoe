@@ -38,11 +38,11 @@ function Game() {
   const [difficulty, setDifficulty] = useState(autoPlayer.DIFFICULTY.EASY);
   const [nextGameComputerPlays, setNextGameComputerPlays] = useState('O');
   const [computerPlays, setComputerPlays] = useState('O'); // LEENA: rename this
-  const [board, setBoard] = useState(brd.newBoard(computerPlays));
+  const [board, setBoard] = useState(brd.newBoard(computerPlays, difficulty));
 
   const startNewGame = () => {
     setComputerPlays(nextGameComputerPlays); // LEENA: this really might be nicer with a state reducer
-    setBoard(brd.newBoard(nextGameComputerPlays));
+    setBoard(brd.newBoard(nextGameComputerPlays, difficulty));
   };
 
   // playing a field is the same as also the computer playing a field
@@ -56,7 +56,11 @@ function Game() {
       if (brd.winner(newBoard) || brd.isFull(newBoard)) {
         return newBoard;
       } else {
-        const fieldToPlayByComputer = autoPlayer.takeTurn(newBoard, difficulty);
+        const fieldToPlayByComputer = autoPlayer.takeTurn(
+          newBoard,
+          computerPlays,
+          difficulty
+        );
         newBoard[fieldToPlayByComputer] = brd.nextPlayer(newBoard);
         return newBoard;
       }

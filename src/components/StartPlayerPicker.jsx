@@ -1,12 +1,12 @@
 import React from 'react';
-import Picker from './Picker.jsx';
+import RadioGroup from './RadioGroup.jsx';
 
 function StartPlayerPicker({
   nextGameComputerPlays,
   setNextGameComputerPlays
 }) {
   return (
-    <Picker
+    <RadioGroup
       legendText="Who starts new games?"
       name="startPlayerPicker"
       checkedValue={nextGameComputerPlays}

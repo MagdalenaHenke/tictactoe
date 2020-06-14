@@ -1,12 +1,12 @@
 import React from 'react';
-import '../styles/Picker.css';
+import '../styles/RadioGroup.css';
 
-function Picker({ legendText, checkedValue, name, options, onChange }) {
+function RadioGroup({ legendText, checkedValue, name, options, onChange }) {
   return (
     <fieldset>
-      <legend className="Picker-legend">{legendText}</legend>
+      <legend className="RadioGroup-legend">{legendText}</legend>
       {options.map((option) => (
-        <label className="Picker-label" key={option.label}>
+        <label className="RadioGroup-label" key={option.label}>
           <input
             type="radio"
             name={name}
@@ -21,4 +21,4 @@ function Picker({ legendText, checkedValue, name, options, onChange }) {
   );
 }
 
-export default Picker;
+export default RadioGroup;

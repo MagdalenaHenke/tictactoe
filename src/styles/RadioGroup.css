@@ -1,9 +1,9 @@
-.Picker-legend {
+.RadioGroup-legend {
   text-align: start;
   padding-top: 2rem;
 }
 
-.Picker-label {
+.RadioGroup-label {
   display: block;
   margin-left: 1rem;
   text-align: start;

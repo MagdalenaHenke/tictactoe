@@ -12,12 +12,14 @@ const nextPlayer = (board) => {
   return nextPlayer;
 };
 
-const newBoard = (computerPlays) => {
+const newBoard = (computerPlays, difficulty) => {
   const newBoard = Array(9).fill(null);
 
   // if computer starts, fill one of the fields
   if (PLAYERS.indexOf(computerPlays) === 0) {
-    newBoard[takeTurn(newBoard)] = nextPlayer(newBoard); // abstract this away
+    newBoard[takeTurn(newBoard, computerPlays, difficulty)] = nextPlayer(
+      newBoard
+    ); // abstract this away
   }
 
   return newBoard;
