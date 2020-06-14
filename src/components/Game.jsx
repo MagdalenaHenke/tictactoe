@@ -23,6 +23,8 @@ import '../styles/Game.css';
 // - on game end, move focus to "start new game" button
 // - maybe FINALLY get to play with focus-visible
 // - I'm chosing to only care about this in chrome
+// - I'm not concerned about performance here, because...I don't have to be concerned
+// - for forcing a draw / being unbeatable: both always make me cross my threes, and always make him not cross his threes
 
 function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
   // maybe these live on state, depends
