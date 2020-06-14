@@ -12,7 +12,7 @@ const nextPlayer = (board) => {
   return nextPlayer;
 };
 
-// LEENA: maybe clean this up
+// LEENA: maybe clean this up, definitely clean this up
 const winner = (board) => {
   const whoTickedAll = (fields) => {
     if (fields.every((field) => field === PLAYERS[0])) return PLAYERS[0];
@@ -22,17 +22,32 @@ const winner = (board) => {
 
   // check all rows and columns
   for (let i = 0; i < 3; i++) {
+    // check whether the row wins
     const row = board.slice(3 * i, 3 * i + 3);
+    let rWinner = whoTickedAll(row);
+    if (rWinner) {
+      return { winner: rWinner, winningLine: `r${i}` };
+    }
+
+    // check whether the columns wins
     const column = [board[i], board[i + 3], board[i + 6]];
-    const allTickedBy = whoTickedAll(row) || whoTickedAll(column);
-    if (allTickedBy) return allTickedBy;
+    let cWinner = whoTickedAll(column);
+    if (cWinner) {
+      return { winner: cWinner, winningLine: `c${i}` };
+    }
   }
 
-  // check diagonals
-  const diagonal1 = [board[0], board[4], board[8]];
-  const diagonal2 = [board[6], board[4], board[2]];
+  // check diagonals // LEENA: all of this isn't fun to read
+  const d1Winner = whoTickedAll([board[0], board[4], board[8]]);
+  const d2Winner = whoTickedAll([board[6], board[4], board[2]]);
+  if (d1Winner) {
+    return { winner: d1Winner, winningLine: 'd1' };
+  }
+  if (d2Winner) {
+    return { winner: d2Winner, winningLine: 'd2' };
+  }
 
-  return whoTickedAll(diagonal1) || whoTickedAll(diagonal2) || null;
+  return null;
 };
 
 const isFull = (board) => {

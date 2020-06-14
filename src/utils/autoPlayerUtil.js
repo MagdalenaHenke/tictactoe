@@ -35,7 +35,7 @@ const pickSmartField = (board) => {
   for (let i = 0; i < board.length; i++) {
     if (!board[i]) {
       const testBoard = board.map((val, index) => (index === i ? 'O' : val)); // LEENA: don't hardcode the O here
-      if (brd.winner(testBoard) === 'O') return i;
+      if (brd.winner(testBoard)?.winner === 'O') return i;
     }
   }
 
@@ -43,7 +43,7 @@ const pickSmartField = (board) => {
   for (let i = 0; i < board.length; i++) {
     if (!board[i]) {
       const testBoard = board.map((val, index) => (index === i ? 'X' : val)); // LEENA: don't hardcode the X here
-      if (brd.winner(testBoard) === 'X') return i;
+      if (brd.winner(testBoard)?.winner === 'X') return i;
     }
   }
 

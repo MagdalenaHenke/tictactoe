@@ -7,6 +7,64 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   border: 1px solid black;
+}
+
+.Board-grid-wrapper {
   width: fit-content;
   margin: auto;
+  position: relative;
+}
+
+.Board-line {
+  width: 100%; /* LEENA: change this */
+  border-bottom: 3px double darkgrey;
+  position: absolute;
+  top: 0;
+  display: none;
+}
+
+/* only show winning board line when game was won */
+.Board:disabled .Board-line {
+  display: block;
+}
+
+/* below classes position the line to cross through winning line */
+/* LEENA: make line also have a delay when computer won */
+.Board-line--r0 {
+  top: 1.5rem; /* LEENA: do this with button size variable */
+}
+
+.Board-line--r1 {
+  top: 4.5rem;
+}
+
+.Board-line--r2 {
+  top: 7.5rem;
+}
+
+.Board-line--c0 {
+  transform: rotate(90deg);
+  top: 50%;
+  left: -3rem;
+}
+
+.Board-line--c1 {
+  transform: rotate(90deg);
+  top: 50%;
+}
+
+.Board-line--c2 {
+  transform: rotate(90deg);
+  top: 50%;
+  left: 3rem;
+}
+
+.Board-line--d1 {
+  transform: rotate(45deg);
+  top: 50%;
+}
+
+.Board-line--d2 {
+  transform: rotate(-45deg);
+  top: 50%;
 }
