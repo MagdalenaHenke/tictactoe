@@ -26,6 +26,7 @@ import '../styles/Game.css';
 // - I'm not concerned about performance here, because...I don't have to be concerned
 // - I started out with easy being just random...that was very boring
 // - for forcing a draw / being unbeatable: both always make me cross my threes, and always make him not cross his threes
+// - choice: handling display logic in css and leveraging the power of html over introducing react
 
 function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
   // maybe these live on state, depends

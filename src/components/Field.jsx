@@ -1,4 +1,5 @@
 import '../styles/Field.css';
+import classNames from 'classnames';
 
 import React from 'react';
 // this component will display just a single field
@@ -6,9 +7,10 @@ import React from 'react';
 function Field({ playedBy, onClick, position }) {
   return (
     <button
-      className={`Field ${playedBy ? 'Field--filled' : ''} ${
-        playedBy === 'O' ? 'Field--autoFilled' : ''
-      }`}
+      className={classNames('Field', {
+        'Field--filled': playedBy,
+        'Field--autoFilled': playedBy === 'O' // Leena: fix that logic, autoplayer doesn't have to be O
+      })}
       disabled={!!playedBy}
       onClick={onClick}
     >
