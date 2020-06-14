@@ -13,3 +13,20 @@
   outline: none;
   background: lightgrey;
 }
+
+@keyframes showAfterDelay {
+  from {
+    color: transparent;
+  }
+  to {
+    color: black;
+  }
+}
+
+.Field--fade-in {
+  color: transparent;
+  animation-name: showAfterDelay;
+  animation-duration: 0.1s;
+  animation-delay: 0.1s;
+  animation-fill-mode: forwards;
+}

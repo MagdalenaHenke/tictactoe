@@ -24,6 +24,7 @@ import '../styles/Game.css';
 // - maybe FINALLY get to play with focus-visible
 // - I'm chosing to only care about this in chrome
 // - I'm not concerned about performance here, because...I don't have to be concerned
+// - I started out with easy being just random...that was very boring
 // - for forcing a draw / being unbeatable: both always make me cross my threes, and always make him not cross his threes
 
 function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
@@ -39,6 +40,7 @@ function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
   };
 
   // playing a field is the same as also the computer playing a field
+  // LEENA: maybe this should be a good old use Reducer
   const playField = (index) => {
     // immediately play the computers turn for now, but maybe wait a moment
     const nextPlayer = brd.nextPlayer(board);
