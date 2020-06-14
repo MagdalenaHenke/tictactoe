@@ -4,8 +4,8 @@
 
   border-radius: 0;
   background: transparent;
-  color: black;
   border: inherit;
+  color: transparent; /* allows fading in auto filled fields */
 }
 
 .Field:hover:not(:disabled),
@@ -14,19 +14,12 @@
   background: lightgrey;
 }
 
-@keyframes showAfterDelay {
-  from {
-    color: transparent;
-  }
-  to {
-    color: black;
-  }
+.Field--filled {
+  color: black;
 }
 
-.Field--fade-in {
-  color: transparent;
-  animation-name: showAfterDelay;
-  animation-duration: 0.1s;
-  animation-delay: 0.1s;
-  animation-fill-mode: forwards;
+/* auto filled fields appear after a tiny delay to make it
+feel like the computer was "thinking" */
+.Field--autoFilled {
+  transition: color 0.1s linear 0.1s;
 }

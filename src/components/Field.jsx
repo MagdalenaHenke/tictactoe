@@ -6,7 +6,9 @@ import React from 'react';
 function Field({ playedBy, onClick, position }) {
   return (
     <button
-      className={`Field ${playedBy === 'O' ? 'Field--fade-in' : ''}`}
+      className={`Field ${playedBy ? 'Field--filled' : ''} ${
+        playedBy === 'O' ? 'Field--autoFilled' : ''
+      }`}
       disabled={!!playedBy}
       onClick={onClick}
     >
