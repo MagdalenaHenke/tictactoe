@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/StartPlayerPicker.css';
 
 function StartPlayerPicker({
   nextGameComputerPlays,
@@ -16,13 +17,13 @@ function StartPlayerPicker({
   return (
     <fieldset>
       <legend>Who starts new games?</legend>
-      <label>
-        Me
+      <label className="StartPlayerPicker-label">
         {getRadioButton('O')}
+        Me
       </label>
-      <label>
-        The computer
+      <label className="StartPlayerPicker-label">
         {getRadioButton('X')}
+        The computer
       </label>
     </fieldset>
   );

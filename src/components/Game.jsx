@@ -10,10 +10,8 @@ import '../styles/Game.css';
 // - keep track of whose turn it is
 // - keep track of whether someone won
 // - keep track of whether the game is over
-// - allow starting a new game for now, except maybe I'll move that out later if I want a leaderboard
-// - for now there is no computer, but eventually, who is the computer, and who plays first
 // - allow extending this to bigger boards?
-// - X will always start, but who will be the first player?
+// - choice: x always starts
 // - assumption I'm making: you all double down on arrow functions
 // - choices made: I'm letting prettier make all of my choices
 // - maybe add keyboard interactions? up and down and stuff
@@ -28,6 +26,8 @@ import '../styles/Game.css';
 // - choice: handling display logic in css and leveraging the power of html over introducing react
 // - choice: waiting for a moment before displaying computer turn all happens through css - the board state is updated all in one
 // - choice: I'm chosing to only build this for chrome because that was fun
+// - keep some tally/leaderboard of how many games were won?
+// - push something to local state to allow for refresh?
 
 function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
   // maybe these live on state, depends
@@ -68,27 +68,40 @@ function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
   // LEENA: make this prettier
   // LEENA: disable entire board when someone won
   // LEENA: maybe state machine this?
-  let statusText = `You're playing: ${computerPlays === 'X' ? 'O' : 'X'}`; // LEENA: use some const for who's who
-  if (winner) statusText = `${winner} won!`;
+  let statusText = `You're playing as: ${computerPlays === 'X' ? 'O' : 'X'}`; // LEENA: use some const for who's who
+  if (winner)
+    statusText = `${winner === computerPlays ? 'The computer' : 'You'} won!`;
+  // LEENA: more encouragement?
   else if (isBoardFull) statusText = 'We have a tie!';
 
   return (
     <div className="Game">
       <h1 className="Game-title">Tic Tac Toe</h1>
-      <div>{statusText}</div>
-      <Board
-        board={board}
-        playField={playField}
-        winningLine={winningLine}
-        computerPlays={computerPlays}
-      />
-      <button className="Game-button" onClick={startNewGame}>
-        Start New Game
-      </button>
-      <StartPlayerPicker
-        nextGameComputerPlays={nextGameComputerPlays}
-        setNextGameComputerPlays={setNextGameComputerPlays}
-      />
+      <div>
+        <div className="Game-layout">
+          <div className="Game-layout--status">{statusText}</div>
+          <div className="Game-layout--board">
+            <Board
+              board={board}
+              playField={playField}
+              winningLine={winningLine}
+              computerPlays={computerPlays}
+            />
+          </div>
+          <div className="Game-layout--options">
+            {/* difficulty picker will go here, too */}
+            <StartPlayerPicker
+              nextGameComputerPlays={nextGameComputerPlays}
+              setNextGameComputerPlays={setNextGameComputerPlays}
+            />
+          </div>
+          <div className="Game-layout--button">
+            <button className="Game-button" onClick={startNewGame}>
+              Start New Game
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

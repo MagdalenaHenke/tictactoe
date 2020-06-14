@@ -1,8 +1,4 @@
 /* Leena: maybe these don't all need to be separate files */
-.Board {
-  margin: 2rem 0;
-}
-
 .Board-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
