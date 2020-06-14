@@ -4,7 +4,7 @@ import '../styles/Board.css';
 import classNames from 'classnames';
 
 // this component will display all the fields
-function Board({ board, playField, winningLine }) {
+function Board({ board, playField, winningLine, computerPlays }) {
   // LEENA: maybe I don't need winner
   return (
     <fieldset className="Board" disabled={!!winningLine}>
@@ -20,6 +20,7 @@ function Board({ board, playField, winningLine }) {
               position={i + 1}
               playedBy={board[i]}
               onClick={() => playField(i)}
+              computerPlays={computerPlays}
             />
           ))}
         </div>

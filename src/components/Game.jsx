@@ -33,11 +33,11 @@ function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
   // LEENA: use the firstPlayer
   // LEENA: for now, human is always first player, allow passing in who is first player
   // choice I'm making: only keep things on state that can't be derived from state
-  const [board, setBoard] = useState(Array(9).fill(null)); // LEENA: possibly dry empty array creation
+  const [computerPlays, setComputerPlays] = useState('O'); // LEENA: rename this
+  const [board, setBoard] = useState(brd.newBoard(computerPlays));
 
   const startNewGame = () => {
-    // LEENA: if computer starts, fill one of the fields
-    setBoard(Array(9).fill(null));
+    setBoard(brd.newBoard(computerPlays));
   };
 
   // playing a field is the same as also the computer playing a field
@@ -61,12 +61,11 @@ function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
   // maybe just fold these under below?
   const { winner, winningLine } = brd.winner(board) || {};
   const isBoardFull = brd.isFull(board);
-  const nextPlayer = brd.nextPlayer(board);
 
   // LEENA: make this prettier
   // LEENA: disable entire board when someone won
   // LEENA: maybe state machine this?
-  let statusText = `Next up: ${nextPlayer}`; // LEENA: edit this, just make it indicator of who you're playing
+  let statusText = `You're playing: ${computerPlays === 'X' ? 'O' : 'X'}`; // LEENA: use some const for who's who
   if (winner) statusText = `${winner} won!`;
   else if (isBoardFull) statusText = 'We have a tie!';
 
@@ -74,7 +73,12 @@ function Game({ difficulty = autoPlayer.DIFFICULTY.EASY, firstPlayer }) {
     <div className="Game">
       <h1 className="Game-title">Tic Tac Toe</h1>
       <div>{statusText}</div>
-      <Board board={board} playField={playField} winningLine={winningLine} />
+      <Board
+        board={board}
+        playField={playField}
+        winningLine={winningLine}
+        computerPlays={computerPlays}
+      />
       <button className="Game-button" onClick={startNewGame}>
         Start New Game
       </button>

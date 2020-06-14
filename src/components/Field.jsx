@@ -4,12 +4,12 @@ import classNames from 'classnames';
 import React from 'react';
 // this component will display just a single field
 // think about accessibility - should these be checkboxes?
-function Field({ playedBy, onClick, position }) {
+function Field({ playedBy, onClick, position, computerPlays }) {
   return (
     <button
       className={classNames('Field', {
         'Field--filled': playedBy,
-        'Field--autoFilled': playedBy === 'O' // Leena: fix that logic, autoplayer doesn't have to be O
+        'Field--autoFilled': playedBy === computerPlays
       })}
       disabled={!!playedBy}
       onClick={onClick}

@@ -1,4 +1,4 @@
-// LEENA: pull all of these out into helper functions
+import { takeTurn } from './autoPlayerUtil';
 const PLAYERS = ['X', 'O']; // maybe share this
 
 const numTurnsPlayed = (board) => {
@@ -10,6 +10,17 @@ const nextPlayer = (board) => {
   const turnsPlayed = numTurnsPlayed(board);
   const nextPlayer = PLAYERS[turnsPlayed % 2]; // X for odd number of fields played, O otherwise
   return nextPlayer;
+};
+
+const newBoard = (computerPlays) => {
+  const newBoard = Array(9).fill(null);
+
+  // if computer starts, fill one of the fields
+  if (PLAYERS.indexOf(computerPlays) === 0) {
+    newBoard[takeTurn(newBoard)] = nextPlayer(newBoard); // abstract this away
+  }
+
+  return newBoard;
 };
 
 // LEENA: maybe clean this up, definitely clean this up
@@ -55,4 +66,4 @@ const isFull = (board) => {
   return board.every(gotPlayed);
 };
 
-export { numTurnsPlayed, nextPlayer, winner, isFull, PLAYERS };
+export { numTurnsPlayed, nextPlayer, newBoard, winner, isFull, PLAYERS };
