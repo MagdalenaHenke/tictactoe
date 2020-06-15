@@ -10,6 +10,10 @@ function DifficultyPicker({ difficulty, setDifficulty }) {
       onChange={setDifficulty}
       options={[
         {
+          label: 'Superduper Easypeasy',
+          value: 'easyPeasy'
+        },
+        {
           label: 'Easy',
           value: 'easy' // LEENA: don't use strings
         },
