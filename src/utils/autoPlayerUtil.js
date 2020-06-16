@@ -70,15 +70,33 @@ const playSmartField = (board) => {
 // maybe improve this to favor plays that make you win
 const memo = {};
 
+function printBoard(board, canWin, message) {
+  const testBoard = [];
+  for (let i in board) {
+    testBoard[i] = board[i] ? board[i] : '.'
+  }
+
+  console.log(`
+    ${message}
+    canWin: ${JSON.stringify(canWin)}:
+    ${testBoard.slice(0, 3).join('')}
+    ${testBoard.slice(3, 6).join('')}
+    ${testBoard.slice(6).join('')}`
+  )
+}
+
 const whoCanWin = (board) => {
   if (memo[board] !== undefined) return memo[board];
   const canWin = { X: false, O: false };
-  if (brd.isCatsGame(board)) return canWin;
+  if (brd.isCatsGame(board)) {
+    printBoard(board, canWin, 'Already Cats Game')
+    return canWin;
+  }
   const winner = brd.getWinner(board);
   if (winner) {
     canWin[winner] = true;
     memo[board] = canWin;
-    console.log('whoCanWin', board, canWin);
+    printBoard(board, canWin, 'Already Won')
     return canWin;
   }
 
@@ -86,42 +104,74 @@ const whoCanWin = (board) => {
   const smartField = determineSmartField(board);
   if (smartField !== null) {
     const testBoard = brd.playField(board, smartField);
-    if (brd.isCatsGame(testBoard)) return canWin;
+    if (brd.isCatsGame(testBoard)) {
+      printBoard(board, canWin, 'Cats Game In One')
+      return canWin;
+    }
     const winner = brd.getWinner(testBoard);
     if (winner) {
       canWin[winner] = true;
       memo[board] = canWin;
-      console.log('whoCanWin', board, canWin);
+      printBoard(board, canWin, 'Win in one')
       return canWin;
     }
+    const newCanWin = whoCanWin(testBoard)
+    printBoard(board, newCanWin, 'Preventing a win in one')
+
+    return newCanWin;
   }
 
-  let whoDefinitelyLosesIfIPlay = {};
+  let whoCanWinIfIPlay = {}; // LEENA: could also just be an array
   const nextPlayer = brd.nextPlayer(board);
   for (let i = 0; i < board.length; i++) {
     // only consider empty boards
     if (!board[i]) {
       const testBoard = board.slice();
       testBoard[i] = nextPlayer;
-      whoDefinitelyLosesIfIPlay[i] = whoCanWin(testBoard);
+      whoCanWinIfIPlay[i] = whoCanWin(testBoard);
     }
   }
 
-  let xLosesAll = true;
-  let oLosesAll = true;
-  let possibleWinners = Object.values(whoDefinitelyLosesIfIPlay);
+  let xCanWin = false;
+  let oCanWin = false;
+  let possibleWinners = Object.values(whoCanWinIfIPlay);
   for (let i = 0; i < possibleWinners.length; i++) {
-    const winner = possibleWinners[i];
-    if (winner === 'X') xLosesAll = false;
-    if (winner === 'O') oLosesAll = false;
+    const winners = possibleWinners[i];
+    if (winners.X) xCanWin = true;
+    if (winners.O) oCanWin = true;
   }
 
-  canWin.X = !xLosesAll;
-  canWin.O = !oLosesAll;
+  canWin.X = xCanWin;
+  canWin.O = oCanWin;
   memo[board] = canWin;
-  console.log('whoCanWin', board, canWin);
+  printBoard(board, canWin, `
+    after trying all
+    ${JSON.stringify(whoCanWinIfIPlay)}
+  `)
   return canWin;
 };
+
+const TRY = [
+  'X', 'O', 'X',
+  '', '', '',
+  'X', '', 'O'
+]
+const TRY2 = [
+  'X', 'O', 'X',
+  'O', '', '',
+  'X', '', 'O'
+]
+const TRY3 = [
+  'X', 'O', '',
+  '', '', 'O',
+  '', 'X', ''
+]
+console.log("one");
+whoCanWin(TRY);
+console.log("two");
+whoCanWin(TRY2);
+console.log("three");
+whoCanWin(TRY3);
 
 // Think about algorithm for this
 // I don't wanna make any move where the other person _can_ win
@@ -132,8 +182,8 @@ const playBestField = (board) => {
 
   const nextPlayer = brd.nextPlayer(board);
   for (let i = 0; i < board.length; i++) {
-    const testBoard = board.slice();
-    if (!testBoard[i]) {
+    if (!board[i]) {
+      const testBoard = board.slice();
       // only consider empty boards
       testBoard[i] = nextPlayer;
       // if this prevents the other person from winning, make that move
