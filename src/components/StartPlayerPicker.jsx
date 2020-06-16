@@ -1,4 +1,5 @@
 import React from 'react';
+import { PLAYERS } from '../utils/boardUtil';
 import RadioGroup from './RadioGroup.jsx';
 
 function StartPlayerPicker({
@@ -14,11 +15,11 @@ function StartPlayerPicker({
       options={[
         {
           label: 'Me',
-          value: 'O' // LEENA: don't use strings
+          value: PLAYERS[1]
         },
         {
           label: 'The computer',
-          value: 'X'
+          value: PLAYERS[0]
         }
       ]}
     />

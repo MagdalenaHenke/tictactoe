@@ -1,4 +1,5 @@
 import React from 'react';
+import { DIFFICULTY } from '../utils/autoPlayerUtil';
 import RadioGroup from './RadioGroup.jsx';
 
 function DifficultyPicker({ difficulty, setDifficulty }) {
@@ -11,15 +12,15 @@ function DifficultyPicker({ difficulty, setDifficulty }) {
       options={[
         {
           label: 'Superduper Easypeasy',
-          value: 'easyPeasy'
+          value: DIFFICULTY.SUPER_EASY
         },
         {
           label: 'Easy',
-          value: 'easy' // LEENA: don't use strings
+          value: DIFFICULTY.EASY
         },
         {
           label: 'Impossibly Hard',
-          value: 'hard'
+          value: DIFFICULTY.HARD
         }
       ]}
     />

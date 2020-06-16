@@ -1,9 +1,8 @@
-import '../styles/Field.css';
-import classNames from 'classnames';
-
 import React from 'react';
-// this component will display just a single field
-// think about accessibility - should these be checkboxes?
+import classNames from 'classnames';
+import '../styles/Field.css';
+
+// LEENA: think about accessibility - should these be checkboxes?
 function Field({ token, onClick, position, computerToken }) {
   return (
     <button

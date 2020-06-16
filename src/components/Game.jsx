@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import * as autoPlayer from '../utils/autoPlayerUtil';
+import * as brd from '../utils/boardUtil';
 import Board from './Board.jsx';
 import StartPlayerPicker from './StartPlayerPicker.jsx';
 import DifficultyPicker from './DifficultyPicker.jsx';
-import * as brd from '../utils/boardUtil';
-import * as autoPlayer from '../utils/autoPlayerUtil';
 import '../styles/Game.css';
 
 // This component will
@@ -35,13 +35,21 @@ import '../styles/Game.css';
 // - do custom focus states and stuff to look better on firefox
 // - I don't think I'm minifying anything
 // - looks like you can use sass. nifty. do that.
+// - I'm recalculating things all over. Cause I can.
+// - comment in all the components what they do, if you feel like it
 
 function Game() {
   // choice I'm making: only keep things on state that can't be derived from state
-  const [difficulty, setDifficulty] = useState(autoPlayer.DIFFICULTY.EASY);
-  const [nextGameComputerToken, setNextGameComputerToken] = useState('O');
-  const [computerToken, setComputerToken] = useState('O'); // LEENA: rename this
-  const [board, setBoard] = useState(brd.newBoard(computerToken, difficulty));
+  const [board, setBoard] = useState(
+    brd.newBoard(brd.DEFAULT_COMPUTER_TOKEN, autoPlayer.DIFFICULTY.DEFAULT)
+  );
+  const [difficulty, setDifficulty] = useState(autoPlayer.DIFFICULTY.DEFAULT);
+  const [computerToken, setComputerToken] = useState(
+    brd.DEFAULT_COMPUTER_TOKEN
+  );
+  const [nextGameComputerToken, setNextGameComputerToken] = useState(
+    brd.DEFAULT_COMPUTER_TOKEN
+  );
 
   const startNewGame = () => {
     setComputerToken(nextGameComputerToken); // LEENA: this really might be nicer with a state reducer
@@ -50,13 +58,13 @@ function Game() {
 
   // playing a field is the same as also the computer playing a field
   // LEENA: maybe this should be a good old use Reducer
-  const playField = (index) => {
+  const pickField = (index) => {
     setBoard((oldBoard) => {
       const newBoard = oldBoard.slice();
       newBoard[index] = brd.nextPlayer(oldBoard);
 
       // if the game isn't over, let the computer also make a move
-      if (!brd.winner(newBoard) && !brd.isFull(newBoard)) {
+      if (!brd.getWinner(newBoard) && !brd.isFull(newBoard)) {
         return autoPlayer.takeTurn(newBoard, difficulty);
       } else {
         return newBoard;
@@ -65,17 +73,17 @@ function Game() {
   };
 
   // maybe just fold these under below?
-  const winner = brd.winner(board);
+  const winner = brd.getWinner(board);
   const isBoardFull = brd.isFull(board);
 
-  // LEENA: make this prettier
-  // LEENA: disable entire board when someone won
   // LEENA: maybe state machine this?
-  let statusText = `You're playing as: ${brd.opponent(computerToken)}`; // LEENA: use some const for who's who
+  let statusText = `You're playing as: ${autoPlayer.getOpponent(
+    computerToken
+  )}`;
   if (winner)
     statusText = `${winner === computerToken ? 'The computer' : 'You'} won!`;
-  // LEENA: more encouragement?
   else if (isBoardFull) statusText = 'We have a tie!';
+  else if (brd.isCatsGame(board)) statusText = "...cat's game";
 
   return (
     <div className="Game">
@@ -86,7 +94,7 @@ function Game() {
           <div className="Game-layout--board">
             <Board
               board={board}
-              playField={playField}
+              pickField={pickField}
               computerToken={computerToken}
             />
           </div>

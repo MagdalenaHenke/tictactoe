@@ -1,4 +1,3 @@
-/* Leena: maybe these don't all need to be separate files */
 .Board-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -59,12 +58,12 @@ https://create-react-app.dev/docs/adding-a-sass-stylesheet/
   left: 3rem;
 }
 
-.Board-line--d1 {
+.Board-line--d0 {
   transform: rotate(45deg);
   top: 49%; /* awkward 49 to make room for the DOUBLE line */
 }
 
-.Board-line--d2 {
+.Board-line--d1 {
   transform: rotate(-45deg);
   top: 49%; /* awkward 49 to make room for the DOUBLE line */
 }

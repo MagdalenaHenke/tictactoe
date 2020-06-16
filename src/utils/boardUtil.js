@@ -1,18 +1,48 @@
 import { takeTurn } from './autoPlayerUtil';
-const PLAYERS = ['X', 'O']; // maybe share this
+const PLAYERS = ['X', 'O'];
+const DEFAULT_COMPUTER_TOKEN = PLAYERS[1];
+
+const ROWS = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8]
+];
+const COLUMNS = [
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8]
+];
+const DIAGNOALS = [
+  [0, 4, 8],
+  [6, 4, 2]
+];
+
+const LINES = [...ROWS, ...COLUMNS, ...DIAGNOALS];
+
+// LEENA: change it all back to regular good old functions
 
 const numTurnsPlayed = (board) => {
   return board.reduce((sum, value) => (!!value ? sum + 1 : sum), 0);
-};
-
-const opponent = (player) => {
-  return player === PLAYERS[0] ? PLAYERS[1] : PLAYERS[0];
 };
 
 // LEENA: comment on all of these functions
 const nextPlayer = (board) => {
   const turnsPlayed = numTurnsPlayed(board);
   return PLAYERS[turnsPlayed % 2]; // X for odd number of fields played, O otherwise
+};
+
+const isFull = (board) => {
+  return numTurnsPlayed(board) === board.length;
+};
+
+const isCatsGame = (board) => {
+  // it's a cats game if all valid lines have at least one X and O
+  for (const line of LINES) {
+    const tokens = getTokens(board, line);
+    if (!(tokens.includes(PLAYERS[0]) && tokens.includes(PLAYERS[1])))
+      return false;
+  }
+  return true;
 };
 
 const newBoard = (computerToken, difficulty) => {
@@ -24,62 +54,67 @@ const newBoard = (computerToken, difficulty) => {
     : newBoard;
 };
 
-// comment these
-const lineWinner = (line) => {
-  if (!!line[0] && line[0] === line[1] && line[1] === line[2]) return line[0];
+const getTokens = (board, line) => {
+  return [board[line[0]], board[line[1]], board[line[2]]];
+};
+
+const lineWinner = (board, line) => {
+  const [a, b, c] = getTokens(board, line);
+  if (!!a && a === b && b === c) return a;
   return null;
 };
 
-const winnerAndWinningLine = (board) => {
-  // check all rows and columns
-  for (let i = 0; i < 3; i++) {
-    const row = board.slice(3 * i, 3 * i + 3);
-    if (lineWinner(row)) return { winner: lineWinner(row), line: `r${i}` }; // LEENA: yeah maybe don't do this twice
+const getWinner = (board) => {
+  let winner = null;
+  for (const line of LINES) {
+    winner = lineWinner(board, line);
+    if (winner) return winner;
+  }
+  return null;
+};
 
-    const col = [board[i], board[i + 3], board[i + 6]];
-    if (lineWinner(col)) return { winner: lineWinner(col), line: `c${i}` };
+// if X (/O) fills all three fields, return X (/O). Otherwise return null
+const getWinningLine = (board) => {
+  let winner = null;
+  for (let i = 0; i < ROWS.length; i++) {
+    const row = ROWS[i];
+    winner = lineWinner(board, row);
+    if (winner) return `r${i}`;
   }
 
-  // check diagonals
-  const d1 = [board[0], board[4], board[8]];
-  const d2 = [board[6], board[4], board[2]];
-  if (lineWinner(d1)) return { winner: lineWinner(d1), line: 'd1' };
-  if (lineWinner(d2)) return { winner: lineWinner(d2), line: 'd2' };
+  for (let i = 0; i < COLUMNS.length; i++) {
+    const col = COLUMNS[i];
+    winner = lineWinner(board, col);
+    if (winner) return `c${i}`;
+  }
 
-  return null;
-};
-
-const winner = (board) => {
-  return winnerAndWinningLine(board)?.winner;
-};
-
-const winningLine = (board) => {
-  return winnerAndWinningLine(board)?.line;
-};
-
-const isFull = (board) => {
-  const gotPlayed = (fieldValue) => !!fieldValue; // if value in a field is truthy, that field got played
-  return board.every(gotPlayed);
+  for (let i = 0; i < DIAGNOALS.length; i++) {
+    const diagonal = DIAGNOALS[i];
+    winner = lineWinner(board, diagonal);
+    if (winner) return `d${i}`;
+  }
 };
 
 // Leena: these really could/should be javascript classes
 // LEENA: maybe don't require player in here
 // LEENA: be more thoughtful about what treats the board as
 // immutable and what doesn't
-const playField = (board, field, player) => {
+const playField = (board, field) => {
+  const token = nextPlayer(board);
   const newBoard = board.slice();
-  newBoard[field] = player;
+  newBoard[field] = token;
   return newBoard;
 };
 
 export {
-  opponent,
   numTurnsPlayed,
+  isFull,
+  isCatsGame,
   nextPlayer,
   newBoard,
-  winner,
-  winningLine,
-  isFull,
+  getWinner,
+  getWinningLine,
   playField,
-  PLAYERS
+  PLAYERS,
+  DEFAULT_COMPUTER_TOKEN
 };
