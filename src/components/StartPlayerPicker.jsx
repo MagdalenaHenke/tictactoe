@@ -2,15 +2,15 @@ import React from 'react';
 import RadioGroup from './RadioGroup.jsx';
 
 function StartPlayerPicker({
-  nextGameComputerPlays,
-  setNextGameComputerPlays
+  nextGameComputerToken,
+  setNextGameComputerToken
 }) {
   return (
     <RadioGroup
       legendText="Who starts new games?"
       name="startPlayerPicker"
-      checkedValue={nextGameComputerPlays}
-      onChange={setNextGameComputerPlays}
+      checkedValue={nextGameComputerToken}
+      onChange={setNextGameComputerToken}
       options={[
         {
           label: 'Me',

@@ -39,13 +39,13 @@ import '../styles/Game.css';
 function Game() {
   // choice I'm making: only keep things on state that can't be derived from state
   const [difficulty, setDifficulty] = useState(autoPlayer.DIFFICULTY.EASY);
-  const [nextGameComputerPlays, setNextGameComputerPlays] = useState('O');
-  const [computerPlays, setComputerPlays] = useState('O'); // LEENA: rename this
-  const [board, setBoard] = useState(brd.newBoard(computerPlays, difficulty));
+  const [nextGameComputerToken, setNextGameComputerToken] = useState('O');
+  const [computerToken, setComputerToken] = useState('O'); // LEENA: rename this
+  const [board, setBoard] = useState(brd.newBoard(computerToken, difficulty));
 
   const startNewGame = () => {
-    setComputerPlays(nextGameComputerPlays); // LEENA: this really might be nicer with a state reducer
-    setBoard(brd.newBoard(nextGameComputerPlays, difficulty));
+    setComputerToken(nextGameComputerToken); // LEENA: this really might be nicer with a state reducer
+    setBoard(brd.newBoard(nextGameComputerToken, difficulty));
   };
 
   // playing a field is the same as also the computer playing a field
@@ -55,31 +55,25 @@ function Game() {
       const newBoard = oldBoard.slice();
       newBoard[index] = brd.nextPlayer(oldBoard);
 
-      // only let the computer play if we haven't won
-      if (brd.winner(newBoard) || brd.isFull(newBoard)) {
-        return newBoard;
+      // if the game isn't over, let the computer also make a move
+      if (!brd.winner(newBoard) && !brd.isFull(newBoard)) {
+        return autoPlayer.takeTurn(newBoard, difficulty);
       } else {
-        const fieldToPlayByComputer = autoPlayer.takeTurn(
-          newBoard,
-          computerPlays,
-          difficulty
-        );
-        newBoard[fieldToPlayByComputer] = brd.nextPlayer(newBoard);
         return newBoard;
       }
     });
   };
 
   // maybe just fold these under below?
-  const { winner, winningLine } = brd.winner(board) || {};
+  const winner = brd.winner(board);
   const isBoardFull = brd.isFull(board);
 
   // LEENA: make this prettier
   // LEENA: disable entire board when someone won
   // LEENA: maybe state machine this?
-  let statusText = `You're playing as: ${computerPlays === 'X' ? 'O' : 'X'}`; // LEENA: use some const for who's who
+  let statusText = `You're playing as: ${brd.opponent(computerToken)}`; // LEENA: use some const for who's who
   if (winner)
-    statusText = `${winner === computerPlays ? 'The computer' : 'You'} won!`;
+    statusText = `${winner === computerToken ? 'The computer' : 'You'} won!`;
   // LEENA: more encouragement?
   else if (isBoardFull) statusText = 'We have a tie!';
 
@@ -93,8 +87,7 @@ function Game() {
             <Board
               board={board}
               playField={playField}
-              winningLine={winningLine}
-              computerPlays={computerPlays}
+              computerToken={computerToken}
             />
           </div>
           <div className="Game-layout--button">
@@ -108,8 +101,8 @@ function Game() {
               setDifficulty={setDifficulty}
             />
             <StartPlayerPicker
-              nextGameComputerPlays={nextGameComputerPlays}
-              setNextGameComputerPlays={setNextGameComputerPlays}
+              nextGameComputerToken={nextGameComputerToken}
+              setNextGameComputerToken={setNextGameComputerToken}
             />
           </div>
         </div>

@@ -4,21 +4,21 @@ import classNames from 'classnames';
 import React from 'react';
 // this component will display just a single field
 // think about accessibility - should these be checkboxes?
-function Field({ playedBy, onClick, position, computerPlays }) {
+function Field({ token, onClick, position, computerToken }) {
   return (
     <button
       className={classNames('Field', {
-        'Field--filled': playedBy,
-        'Field--autoFilled': playedBy === computerPlays
+        'Field--filled': token,
+        'Field--autoFilled': token === computerToken
       })}
-      disabled={!!playedBy}
+      disabled={!!token}
       onClick={onClick}
     >
       <span className="visually-hidden">
-        {/* announce field position and playedBy to screen reader users */}
-        {`Field ${position}: ${playedBy ? '' : 'empty'}`}
+        {/* announce field position and token to screen reader users */}
+        {`Field ${position}: ${token ? '' : 'empty'}`}
       </span>
-      {playedBy}
+      {token}
     </button>
   );
 }

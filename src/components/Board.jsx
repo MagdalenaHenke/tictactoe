@@ -2,13 +2,17 @@ import React from 'react';
 import Field from './Field.jsx';
 import '../styles/Board.css';
 import classNames from 'classnames';
+import * as brd from '../utils/boardUtil';
 
 // this component will display all the fields
-function Board({ board, playField, winningLine, computerPlays }) {
-  // LEENA: maybe I don't need winner
+function Board({ board, playField, computerToken }) {
+  // I know I know I'm recalculating this
+  // but it's because the BOARD is concerned about displaying the
+  // winning line. The Game isn't.
+  const winningLine = brd.winningLine(board);
   return (
+    // disabling all buttons when game is over to prevent further moves
     <fieldset className="Board" disabled={!!winningLine}>
-      {/* disabled all buttons when game is over to prevent further moves */}
       <legend className="visually-hidden">
         TicTacToe fields, numbered 1 - 9
       </legend>
@@ -18,9 +22,9 @@ function Board({ board, playField, winningLine, computerPlays }) {
             <Field
               key={i}
               position={i + 1}
-              playedBy={board[i]}
+              token={board[i]}
               onClick={() => playField(i)}
-              computerPlays={computerPlays}
+              computerToken={computerToken}
             />
           ))}
         </div>
