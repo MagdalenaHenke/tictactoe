@@ -21,6 +21,7 @@ import '../styles/Game.css';
 /* Things to do
 - make layout work on mobile!
 - looks like you can use sass. nifty. do that.
+- jest tests?
 - on click, set focus back to the first free element in the board
 - maybe add keyboard interactions? up and down and stuff
 - on game end, move focus to "start new game" button
@@ -33,6 +34,7 @@ import '../styles/Game.css';
 */
 
 /* Maybe things to do
+- do a socket based version
 - allow extending this to bigger boards?
 - considered using styled components because that would have been fuuuuuun
 */
@@ -62,15 +64,13 @@ function Game() {
   // LEENA: maybe this should be a good old use Reducer
   const pickField = (index) => {
     setBoard((oldBoard) => {
-      const newBoard = oldBoard.slice();
-      newBoard[index] = brd.getNextPlayer(oldBoard);
+      const newBoard = brd.playField(oldBoard, index);
 
       // if the game isn't over, let the computer also make a move
       if (!brd.getWinner(newBoard) && !brd.isFull(newBoard)) {
         return autoPlayer.takeTurn(newBoard, difficulty);
-      } else {
-        return newBoard;
       }
+      return newBoard;
     });
   };
 
@@ -100,11 +100,6 @@ function Game() {
               computerToken={computerToken}
             />
           </div>
-          <div className="Game-layout--button">
-            <button className="Game-button" onClick={startNewGame}>
-              Start New Game
-            </button>
-          </div>
           <div className="Game-layout--options">
             <DifficultyPicker
               difficulty={difficulty}
@@ -114,6 +109,11 @@ function Game() {
               nextGameComputerToken={nextGameComputerToken}
               setNextGameComputerToken={setNextGameComputerToken}
             />
+          </div>
+          <div className="Game-layout--button">
+            <button className="Game-button" onClick={startNewGame}>
+              Start New Game
+            </button>
           </div>
         </div>
       </div>
