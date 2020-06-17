@@ -8,6 +8,10 @@ const DIFFICULTY = {
   HARD: 'hard'
 };
 
+const getRandomElement = (arr) => {
+  return arr[Math.floor(Math.random() * arr.length)];
+};
+
 // LEENA: rename them all to like "getWinner and stuff"
 const getOpponent = (player) => {
   return player === brd.PLAYERS[0] ? brd.PLAYERS[1] : brd.PLAYERS[0];
@@ -65,240 +69,146 @@ const playSmartField = (board) => {
   return playRandomField(board);
 };
 
-// a cats game is not a win for the other person
-// I'm just trying to avoid definite losses
-// maybe improve this to favor plays that make you win
-// const memo = {};
-
+// LEENA: some debugging setup
 function printBoard(board, canWin, message) {
   const testBoard = [];
   for (let i in board) {
     testBoard[i] = board[i] ? board[i] : '.';
   }
 
-  console.log(`
-    ${message}
-    canWin: ${JSON.stringify(canWin)}:
-    ${testBoard.slice(0, 3).join('')}
-    ${testBoard.slice(3, 6).join('')}
-    ${testBoard.slice(6).join('')}`);
+  // console.log(`
+  //   ${message}
+  //   canWin: ${JSON.stringify(canWin)}:
+  //   ${testBoard.slice(0, 3).join('')}
+  //   ${testBoard.slice(3, 6).join('')}
+  //   ${testBoard.slice(6).join('')}`);
 }
 
-const mem = {};
+const memo = {};
 
-const G = {
-  DEFINITE_LOSS: 'definite_loss',
-  DEFINITE_DRAW: 'definite_draw',
-  DEFINITE_WIN: 'definite_win',
-  POSSIBLE_LOSS: 'possible_loss',
-  POSSIBLE_WIN: 'possible_win',
-  POSSIBLE_DRAW: 'possible_draw'
-};
-
-// { xDefinitelyWins, oDefinitelyWins, xCanWin, oCanWin}
-const analyzeBoard = (board) => {
-  if (mem[board] !== undefined) return mem[board];
+const whoDefinitelyWins = (board) => {
+  if (memo[board] !== undefined) return memo[board];
   const nextPlayer = brd.nextPlayer(board);
-  const opponent = getOpponent(nextPlayer);
 
   if (brd.isCatsGame(board)) {
-    const analysis = { X: G.DEFINITE_DRAW, O: G.DEFINITE_DRAW };
-    mem[board] = analysis;
-    return analysis;
+    const definiteWinner = null; // LEENA: make these independent of "X" and "O"
+    memo[board] = definiteWinner;
+    return definiteWinner;
   }
 
   const winner = brd.getWinner(board);
   if (winner) {
-    const analysis = {
-      X: winner === 'X' ? G.DEFINITE_WIN : G.DEFINITE_LOSS,
-      O: winner === 'O' ? G.DEFINITE_WIN : G.DEFINITE_LOSS
-    };
-    mem[board] = analysis;
-    return analysis;
+    const definiteWinner = winner;
+    memo[board] = definiteWinner;
+    return definiteWinner;
   }
 
   // make the obvious move if there is one
   const smartField = determineSmartField(board);
   if (smartField !== null) {
     const testBoard = brd.playField(board, smartField);
-    const analysis = analyzeBoard(testBoard);
-    mem[board] = analysis;
-    return analysis;
+    const definiteWinner = whoDefinitelyWins(testBoard);
+    memo[board] = definiteWinner;
+    return definiteWinner;
   }
 
-  let whoCanWinIfIPlay = {}; // LEENA: could also just be an array
+  let whoDefinitelyWinsIfIPlay = {}; // LEENA: could also just be an array
   for (let i = 0; i < board.length; i++) {
-    // only consider empty boards
+    // only consider empty fields
     if (!board[i]) {
       const testBoard = board.slice();
       testBoard[i] = nextPlayer;
-      whoCanWinIfIPlay[i] = analyzeBoard(testBoard);
+      whoDefinitelyWinsIfIPlay[i] = whoDefinitelyWins(testBoard);
     }
   }
 
-  const possiblePlays = Object.values(whoCanWinIfIPlay);
+  const possiblePlays = Object.values(whoDefinitelyWinsIfIPlay);
   // if any of them are a definite win for the current player, we'd play that one
   // and force a win
-  if (possiblePlays.some((outcome) => outcome[nextPlayer] === G.DEFINITE_WIN)) {
-    const analysis = {
-      [nextPlayer]: G.DEFINITE_WIN,
-      [opponent]: G.DEFINITE_LOSS
-    };
+  if (possiblePlays.some((winner) => winner === nextPlayer)) {
+    const definiteWinner = nextPlayer;
     printBoard(
       board,
-      analysis,
+      definiteWinner,
       `after trying all
-      ${JSON.stringify(whoCanWinIfIPlay)}`
+      ${whoDefinitelyWinsIfIPlay}`
     );
-    mem[board] = analysis;
-    return analysis;
+    memo[board] = definiteWinner;
+    return definiteWinner;
   }
 
-  if (
-    possiblePlays.every((outcome) => outcome[nextPlayer] === G.DEFINITE_LOSS)
-  ) {
-    const analysis = {
-      [nextPlayer]: G.DEFINITE_LOSS,
-      [opponent]: G.DEFINITE_WIN
-    };
+  // if regardless of what the current player does, they definitely lose
+  if (possiblePlays.every((winner) => winner === nextPlayer)) {
+    const definiteWinner = nextPlayer;
     printBoard(
       board,
-      analysis,
+      definiteWinner,
       `after trying all
-      ${JSON.stringify(whoCanWinIfIPlay)}`
+      ${whoDefinitelyWinsIfIPlay}`
     );
-    mem[board] = analysis;
-    return analysis;
+    memo[board] = definiteWinner;
+    return definiteWinner;
   }
 
   // LEENA: be more specific about this, maybe do a possible draw
   // also add in randomness when it doesn't matter - for fun!
-
-  const analysis = { X: G.DEFINITE_DRAW, O: G.DEFINITE_DRAW };
+  const definiteWinner = null;
   printBoard(
     board,
-    analysis,
+    definiteWinner,
     `after trying all
-    ${JSON.stringify(whoCanWinIfIPlay)}`
+    ${whoDefinitelyWinsIfIPlay}`
   );
-  mem[board] = analysis;
-  return analysis;
+  memo[board] = definiteWinner;
+  return definiteWinner;
 };
-
-// const whoCanWin = (board) => {
-//   if (memo[board] !== undefined) return memo[board];
-//   const canWin = { X: false, O: false };
-//   if (brd.isCatsGame(board)) {
-//     printBoard(board, canWin, 'Already Cats Game');
-//     return canWin;
-//   }
-//   const winner = brd.getWinner(board);
-//   if (winner) {
-//     canWin[winner] = true;
-//     memo[board] = canWin;
-//     printBoard(board, canWin, 'Already Won');
-//     return canWin;
-//   }
-//
-//   // if there is a smart field, you gotta play that one
-//   const smartField = determineSmartField(board);
-//   if (smartField !== null) {
-//     const testBoard = brd.playField(board, smartField);
-//     if (brd.isCatsGame(testBoard)) {
-//       printBoard(board, canWin, 'Cats Game In One');
-//       return canWin;
-//     }
-//     const winner = brd.getWinner(testBoard);
-//     if (winner) {
-//       canWin[winner] = true;
-//       memo[board] = canWin;
-//       printBoard(board, canWin, 'Win in one');
-//       return canWin;
-//     }
-//     const newCanWin = whoCanWin(testBoard);
-//     printBoard(board, newCanWin, 'Preventing a win in one');
-//
-//     return newCanWin;
-//   }
-//
-//   let whoCanWinIfIPlay = {}; // LEENA: could also just be an array
-//   const nextPlayer = brd.nextPlayer(board);
-//   for (let i = 0; i < board.length; i++) {
-//     // only consider empty boards
-//     if (!board[i]) {
-//       const testBoard = board.slice();
-//       testBoard[i] = nextPlayer;
-//       whoCanWinIfIPlay[i] = whoCanWin(testBoard);
-//     }
-//   }
-//
-//   let xCanWin = false;
-//   let oCanWin = false; // LEENA: what are these?
-//   let possibleWinners = Object.values(whoCanWinIfIPlay);
-//   for (let i = 0; i < possibleWinners.length; i++) {
-//     const winners = possibleWinners[i];
-//     if (winners.O) oCanWin = true;
-//     if (winners.X) xCanWin = true;
-//   }
-//
-//   canWin.X = xCanWin;
-//   canWin.O = oCanWin;
-//   memo[board] = canWin;
-//   printBoard(
-//     board,
-//     canWin,
-//     `
-//     after trying all
-//     ${JSON.stringify(whoCanWinIfIPlay)}
-//   `
-//   );
-//   return canWin;
-// };
 
 // const TRY = ['X', 'O', 'X', '', '', '', 'X', '', 'O'];
 // const TRY2 = ['X', 'O', 'X', 'O', '', '', 'X', '', 'O'];
 // const TRY3 = ['X', 'O', '', '', '', 'O', '', 'X', ''];
 // console.log('one');
-// analyzeBoard(TRY);
+// whoDefinitelyWins(TRY);
 // console.log('two');
-// analyzeBoard(TRY2);
+// whoDefinitelyWins(TRY2);
 // console.log('three');
-// analyzeBoard(TRY3);
+// whoDefinitelyWins(TRY3);
 
 // Think about algorithm for this
-// I don't wanna make any move where the other person _can_ win
+// any move that makes me win definitely, do that one
+// avoid moves that make me lose definitely
+// pick from the remaining ones at random
 const playBestField = (board) => {
   // if there is a smart field, you gotta play that one
   const smartField = determineSmartField(board);
   if (smartField !== null) return brd.playField(board, smartField);
 
   const nextPlayer = brd.nextPlayer(board);
+
+  const boardsWithMovesThatDefinitelyMakeNextPlayerWin = [];
+  const boardsWithMovesThatEndInDraws = [];
   for (let i = 0; i < board.length; i++) {
     if (!board[i]) {
       // only consider empty boards
       const testBoard = board.slice();
       testBoard[i] = nextPlayer;
-      const analysis = analyzeBoard(testBoard);
-      // if I can win and this prevents the other person from winning, make that move
-      if (analysis[nextPlayer] === G.DEFINITE_WIN) return testBoard;
-    }
-  }
-
-  for (let i = 0; i < board.length; i++) {
-    if (!board[i]) {
-      const testBoard = board.slice();
-      testBoard[i] = nextPlayer;
-      const analysis = analyzeBoard(testBoard);
-      // pick the first one that's not a definite loss
-      // LEENA: pick a random one that's not a definite loss?
-      if (analysis[nextPlayer] !== G.DEFINITE_LOSS) {
-        return testBoard;
+      const definiteWinner = whoDefinitelyWins(testBoard);
+      if (definiteWinner === nextPlayer) {
+        boardsWithMovesThatDefinitelyMakeNextPlayerWin.push(testBoard);
+      } else if (definiteWinner === null) {
+        boardsWithMovesThatEndInDraws.push(testBoard);
       }
     }
   }
 
-  console.log('we got here, somehow');
-  return board;
+  if (boardsWithMovesThatDefinitelyMakeNextPlayerWin.length > 0) {
+    return getRandomElement(boardsWithMovesThatDefinitelyMakeNextPlayerWin);
+  }
+
+  if (boardsWithMovesThatEndInDraws.length > 0) {
+    return getRandomElement(boardsWithMovesThatEndInDraws);
+  }
+
+  console.log('we got here, somehow, but should not have');
 };
 
 const takeTurn = function(board, difficulty = DIFFICULTY.EASY) {
@@ -308,9 +218,5 @@ const takeTurn = function(board, difficulty = DIFFICULTY.EASY) {
   if (difficulty === DIFFICULTY.HARD) return playBestField(board);
   console.log("Check your difficulties, you're using one I don't know of.");
 };
-
-// function hash(board) {
-//   return board.join('-');
-// }
 
 export { DIFFICULTY, getOpponent, takeTurn };
