@@ -7,97 +7,101 @@ import {
 } from '../constants/constants';
 import { takeTurn } from './autoPlayerUtil';
 
-// LEENA: change it all back to regular good old functions
+// creates an empty board, or, if the computer makes the first move,
+// a board with one move made
+function getNewBoard(computerToken, difficulty) {
+  const getNewBoard = Array(9).fill(null);
 
-const numTurnsPlayed = (board) => {
+  // if computer starts, fill one of the fields
+  return PLAYERS.indexOf(computerToken) === 0
+    ? takeTurn(getNewBoard, difficulty)
+    : getNewBoard;
+}
+
+// return number of turns played so far
+function numTurnsPlayed(board) {
   return board.reduce((sum, value) => (!!value ? sum + 1 : sum), 0);
-};
+}
 
-// LEENA: comment on all of these functions
-const nextPlayer = (board) => {
+// returns token of the player making the next move
+function getNextPlayer(board) {
   const turnsPlayed = numTurnsPlayed(board);
   return PLAYERS[turnsPlayed % 2]; // X for odd number of fields played, O otherwise
-};
+}
 
-const isFull = (board) => {
+// returns true if all fields are filled
+function isFull(board) {
   return numTurnsPlayed(board) === board.length;
-};
+}
 
-const isCatsGame = (board) => {
-  // it's a cats game if all valid lines have at least one X and O
+// returns tokens played for a set of board indices
+function getTokens(board, line) {
+  return [board[line[0]], board[line[1]], board[line[2]]];
+}
+
+// it's a cats game if all valid lines have at least one X and one O
+function isCatsGame(board) {
   for (const line of LINES) {
     const tokens = getTokens(board, line);
     if (!(tokens.includes(PLAYERS[0]) && tokens.includes(PLAYERS[1])))
       return false;
   }
   return true;
-};
+}
 
-const newBoard = (computerToken, difficulty) => {
-  const newBoard = Array(9).fill(null);
-
-  // if computer starts, fill one of the fields
-  return PLAYERS.indexOf(computerToken) === 0
-    ? takeTurn(newBoard, difficulty)
-    : newBoard;
-};
-
-const getTokens = (board, line) => {
-  return [board[line[0]], board[line[1]], board[line[2]]];
-};
-
-const lineWinner = (board, line) => {
+// for a given line, check whether each three fields contain the same token
+// if so, return that token
+function getLineWinner(board, line) {
   const [a, b, c] = getTokens(board, line);
   if (!!a && a === b && b === c) return a;
   return null;
-};
+}
 
-const getWinner = (board) => {
+// if any token has filled a line, returns that token
+// otherwise returns nulls
+function getWinner(board) {
   let winner = null;
   for (const line of LINES) {
-    winner = lineWinner(board, line);
+    winner = getLineWinner(board, line);
     if (winner) return winner;
   }
   return null;
-};
+}
 
-// if X (/O) fills all three fields, return X (/O). Otherwise return null
-const getWinningLine = (board) => {
-  let winner = null;
-  for (let i = 0; i < ROWS.length; i++) {
-    const row = ROWS[i];
-    winner = lineWinner(board, row);
-    if (winner) return `r${i}`;
+// figure out which line needs to be crossed through
+// rows are labelled r0, r1, r2
+// columns are labelled c0, c1, c2
+// diagonals are labelled d0 and d1
+// these align with the classnames used to position the
+// cross-through line in Board.css
+function getWinningLine(board) {
+  for (let i in ROWS) {
+    if (getLineWinner(board, ROWS[i])) return `r${i}`;
   }
 
-  for (let i = 0; i < COLUMNS.length; i++) {
-    const col = COLUMNS[i];
-    winner = lineWinner(board, col);
-    if (winner) return `c${i}`;
+  for (let i in COLUMNS) {
+    if (getLineWinner(board, COLUMNS[i])) return `c${i}`;
   }
 
-  for (let i = 0; i < DIAGONALS.length; i++) {
-    const diagonal = DIAGONALS[i];
-    winner = lineWinner(board, diagonal);
-    if (winner) return `d${i}`;
+  for (let i in DIAGONALS) {
+    if (getLineWinner(board, DIAGONALS[i])) return `d${i}`;
   }
-};
+}
 
 // Leena: these really could/should be javascript classes
-// LEENA: maybe don't require player in here
-// LEENA: be more thoughtful about what treats the board as
-// immutable and what doesn't
-const playField = (board, field) => {
-  const token = nextPlayer(board);
-  const newBoard = board.slice();
-  newBoard[field] = token;
-  return newBoard;
+// LEENA: be more thoughtful about what treats the board as immutable and what doesn't
+
+// returns a new board with the next move made at the given index
+const playField = (board, i) => {
+  const token = getNextPlayer(board);
+  const getNewBoard = board.slice();
+  getNewBoard[i] = token;
+  return getNewBoard;
 };
 
-// debugging helper method
+// debugging helper method for printing boards to the console
 const printBoard = (board, ...message) => {
   const testBoard = board.map((val) => val || '.');
-
   console.log(`
      ${message}
      ${testBoard.slice(0, 3).join('')}
@@ -109,8 +113,8 @@ export {
   numTurnsPlayed,
   isFull,
   isCatsGame,
-  nextPlayer,
-  newBoard,
+  getNextPlayer,
+  getNewBoard,
   getWinner,
   getWinningLine,
   playField,

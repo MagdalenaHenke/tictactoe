@@ -42,7 +42,7 @@ import '../styles/Game.css';
 function Game() {
   // choice I'm making: only keep things on state that can't be derived from state
   const [board, setBoard] = useState(
-    brd.newBoard(DEFAULT_COMPUTER_TOKEN, DIFFICULTY.DEFAULT)
+    brd.getNewBoard(DEFAULT_COMPUTER_TOKEN, DIFFICULTY.DEFAULT)
   );
   const [difficulty, setDifficulty] = useState(DIFFICULTY.DEFAULT);
   const [computerToken, setComputerToken] = useState(DEFAULT_COMPUTER_TOKEN);
@@ -52,7 +52,7 @@ function Game() {
 
   const startNewGame = () => {
     setComputerToken(nextGameComputerToken); // LEENA: this really might be nicer with a state reducer
-    setBoard(brd.newBoard(nextGameComputerToken, difficulty));
+    setBoard(brd.getNewBoard(nextGameComputerToken, difficulty));
   };
 
   // playing a field is the same as also the computer playing a field
@@ -60,7 +60,7 @@ function Game() {
   const pickField = (index) => {
     setBoard((oldBoard) => {
       const newBoard = oldBoard.slice();
-      newBoard[index] = brd.nextPlayer(oldBoard);
+      newBoard[index] = brd.getNextPlayer(oldBoard);
 
       // if the game isn't over, let the computer also make a move
       if (!brd.getWinner(newBoard) && !brd.isFull(newBoard)) {
