@@ -7,38 +7,41 @@ import StartPlayerPicker from './StartPlayerPicker.jsx';
 import DifficultyPicker from './DifficultyPicker.jsx';
 import '../styles/Game.css';
 
+/* Choices I made
+- choice: x always starts
+- choices made: I'm letting prettier make all of my choices
+- I'm choosing to define all my css myself instead of using bootstrap / bulma...cause I think then there's less bloat
+- I'm not concerned about performance here, because...I don't have to be concerned
+- choice: waiting for a moment before displaying computer turn all happens through css - the board state is updated all in one
+- choice: handling display logic in css and leveraging the power of html over introducing react
+- choice: I'm chosing to only build this for chrome because then I could selfishly use this for learning
+- I'm recalculating things all over. Cause I can.
+*/
+
+/* Things to do
+- make layout work on mobile!
+- looks like you can use sass. nifty. do that.
+- on click, set focus back to the first free element in the board
+- maybe add keyboard interactions? up and down and stuff
+- on game end, move focus to "start new game" button
+- maybe FINALLY get to play with focus-visible
+- think throuhg all accessibility concerns
+- keep some tally/leaderboard of how many games were won?
+- push something to local state to allow for refresh?
+- comment in all the components what they do, if you feel like it
+- fix things on firefox at least a little...custom focus states and stuff to look better on firefox
+*/
+
+/* Maybe things to do
+- allow extending this to bigger boards?
+- considered using styled components because that would have been fuuuuuun
+*/
+
 // This component will
 // - keep track of board state
 // - keep track of whose turn it is
 // - keep track of whether someone won
 // - keep track of whether the game is over
-// - allow extending this to bigger boards?
-// - choice: x always starts
-// - assumption I'm making: you all double down on arrow functions
-// - choices made: I'm letting prettier make all of my choices
-// - maybe add keyboard interactions? up and down and stuff
-// - on click, set focus back to the first free element in the board
-// - considered using styled components because that would have been fuuuuuun
-// - I'm choosing to define all my css myself instead of using bootstrap / bulma...cause I think then there's less bloat
-// - on game end, move focus to "start new game" button
-// - maybe FINALLY get to play with focus-visible
-// - I'm not concerned about performance here, because...I don't have to be concerned
-// - I started out with easy being just random...that was very boring
-// - for forcing a draw / being unbeatable: both always make me cross my threes, and always make him not cross his threes
-// - choice: handling display logic in css and leveraging the power of html over introducing react
-// - choice: waiting for a moment before displaying computer turn all happens through css - the board state is updated all in one
-// - choice: I'm chosing to only build this for chrome because that was fun
-// - keep some tally/leaderboard of how many games were won?
-// - push something to local state to allow for refresh?
-// - for now just on laptop, but make layout work on mobile!
-// - accessibility concerns
-// - use built in css reset
-// - do custom focus states and stuff to look better on firefox
-// - I don't think I'm minifying anything
-// - looks like you can use sass. nifty. do that.
-// - I'm recalculating things all over. Cause I can.
-// - comment in all the components what they do, if you feel like it
-
 function Game() {
   // choice I'm making: only keep things on state that can't be derived from state
   const [board, setBoard] = useState(
