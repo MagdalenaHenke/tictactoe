@@ -255,15 +255,15 @@ const whoCanWin = (board) => {
   return canWin;
 };
 
-const TRY = ['X', 'O', 'X', '', '', '', 'X', '', 'O'];
-const TRY2 = ['X', 'O', 'X', 'O', '', '', 'X', '', 'O'];
-const TRY3 = ['X', 'O', '', '', '', 'O', '', 'X', ''];
-console.log('one');
-analyzeBoard(TRY);
-console.log('two');
-analyzeBoard(TRY2);
-console.log('three');
-analyzeBoard(TRY3);
+// const TRY = ['X', 'O', 'X', '', '', '', 'X', '', 'O'];
+// const TRY2 = ['X', 'O', 'X', 'O', '', '', 'X', '', 'O'];
+// const TRY3 = ['X', 'O', '', '', '', 'O', '', 'X', ''];
+// console.log('one');
+// analyzeBoard(TRY);
+// console.log('two');
+// analyzeBoard(TRY2);
+// console.log('three');
+// analyzeBoard(TRY3);
 
 // Think about algorithm for this
 // I don't wanna make any move where the other person _can_ win
