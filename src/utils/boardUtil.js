@@ -2,6 +2,8 @@ import { takeTurn } from './autoPlayerUtil';
 const PLAYERS = ['X', 'O'];
 const DEFAULT_COMPUTER_TOKEN = PLAYERS[1];
 
+// Note: can also create these on the fly
+// but this is much easier to read and debug
 const ROWS = [
   [0, 1, 2],
   [3, 4, 5],
@@ -106,6 +108,17 @@ const playField = (board, field) => {
   return newBoard;
 };
 
+// debugging helper method
+const printBoard = (board, ...message) => {
+  const testBoard = board.map((val) => val || '.');
+
+  console.log(`
+     ${message}
+     ${testBoard.slice(0, 3).join('')}
+     ${testBoard.slice(3, 6).join('')}
+     ${testBoard.slice(6).join('')}`);
+};
+
 export {
   numTurnsPlayed,
   isFull,
@@ -116,5 +129,6 @@ export {
   getWinningLine,
   playField,
   PLAYERS,
-  DEFAULT_COMPUTER_TOKEN
+  DEFAULT_COMPUTER_TOKEN,
+  printBoard
 };
