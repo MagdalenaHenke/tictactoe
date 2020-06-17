@@ -1,5 +1,5 @@
 import React from 'react';
-import { DIFFICULTY } from '../utils/autoPlayerUtil';
+import { DIFFICULTY } from '../constants/constants';
 import RadioGroup from './RadioGroup.jsx';
 
 function DifficultyPicker({ difficulty, setDifficulty }) {

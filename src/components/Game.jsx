@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { DEFAULT_COMPUTER_TOKEN, DIFFICULTY } from '../constants/constants';
 import * as autoPlayer from '../utils/autoPlayerUtil';
 import * as brd from '../utils/boardUtil';
 import Board from './Board.jsx';
@@ -41,14 +42,12 @@ import '../styles/Game.css';
 function Game() {
   // choice I'm making: only keep things on state that can't be derived from state
   const [board, setBoard] = useState(
-    brd.newBoard(brd.DEFAULT_COMPUTER_TOKEN, autoPlayer.DIFFICULTY.DEFAULT)
+    brd.newBoard(DEFAULT_COMPUTER_TOKEN, DIFFICULTY.DEFAULT)
   );
-  const [difficulty, setDifficulty] = useState(autoPlayer.DIFFICULTY.DEFAULT);
-  const [computerToken, setComputerToken] = useState(
-    brd.DEFAULT_COMPUTER_TOKEN
-  );
+  const [difficulty, setDifficulty] = useState(DIFFICULTY.DEFAULT);
+  const [computerToken, setComputerToken] = useState(DEFAULT_COMPUTER_TOKEN);
   const [nextGameComputerToken, setNextGameComputerToken] = useState(
-    brd.DEFAULT_COMPUTER_TOKEN
+    DEFAULT_COMPUTER_TOKEN
   );
 
   const startNewGame = () => {

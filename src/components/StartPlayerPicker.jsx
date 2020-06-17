@@ -1,5 +1,5 @@
 import React from 'react';
-import { PLAYERS } from '../utils/boardUtil';
+import { PLAYERS } from '../constants/constants';
 import RadioGroup from './RadioGroup.jsx';
 
 function StartPlayerPicker({

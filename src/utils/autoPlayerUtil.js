@@ -1,11 +1,5 @@
+import { PLAYERS, DIFFICULTY } from '../constants/constants';
 import * as brd from '../utils/boardUtil';
-
-const DIFFICULTY = {
-  DEFAULT: 'hard',
-  SUPER_EASY: 'easyPeasy',
-  EASY: 'easy',
-  HARD: 'hard'
-};
 
 const getRandomElement = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -13,7 +7,7 @@ const getRandomElement = (arr) => {
 
 // LEENA: rename them all to like "getWinner and stuff"
 const getOpponent = (player) => {
-  return player === brd.PLAYERS[0] ? brd.PLAYERS[1] : brd.PLAYERS[0];
+  return player === PLAYERS[0] ? PLAYERS[1] : PLAYERS[0];
 };
 
 const determineSmartField = (board) => {
@@ -187,4 +181,4 @@ const takeTurn = function(board, difficulty = DIFFICULTY.EASY) {
   console.log("Check your difficulties, you're using one I don't know of.");
 };
 
-export { DIFFICULTY, getOpponent, takeTurn };
+export { getOpponent, takeTurn };

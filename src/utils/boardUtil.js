@@ -1,25 +1,11 @@
+import {
+  PLAYERS,
+  ROWS,
+  COLUMNS,
+  DIAGONALS,
+  LINES
+} from '../constants/constants';
 import { takeTurn } from './autoPlayerUtil';
-const PLAYERS = ['X', 'O'];
-const DEFAULT_COMPUTER_TOKEN = PLAYERS[1];
-
-// Note: can also create these on the fly
-// but this is much easier to read and debug
-const ROWS = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8]
-];
-const COLUMNS = [
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8]
-];
-const DIAGNOALS = [
-  [0, 4, 8],
-  [6, 4, 2]
-];
-
-const LINES = [...ROWS, ...COLUMNS, ...DIAGNOALS];
 
 // LEENA: change it all back to regular good old functions
 
@@ -90,8 +76,8 @@ const getWinningLine = (board) => {
     if (winner) return `c${i}`;
   }
 
-  for (let i = 0; i < DIAGNOALS.length; i++) {
-    const diagonal = DIAGNOALS[i];
+  for (let i = 0; i < DIAGONALS.length; i++) {
+    const diagonal = DIAGONALS[i];
     winner = lineWinner(board, diagonal);
     if (winner) return `d${i}`;
   }
@@ -128,7 +114,5 @@ export {
   getWinner,
   getWinningLine,
   playField,
-  PLAYERS,
-  DEFAULT_COMPUTER_TOKEN,
   printBoard
 };
