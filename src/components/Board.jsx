@@ -6,8 +6,8 @@ import '../styles/Board.css';
 
 function Board({ board, pickField, computerToken }) {
   const winningLine = getWinningLine(board);
+  // disabling all buttons when game is over to prevent further moves
   return (
-    // disabling all buttons when game is over to prevent further moves
     <fieldset className="Board" disabled={!!winningLine}>
       {/* giving context to button group to screen reader users */}
       <legend className="visually-hidden">
