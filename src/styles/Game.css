@@ -48,7 +48,7 @@
 .Game-button:active,
 .Game-button:focus {
   outline: none;
-  background-color: lightgrey;
+  background-color: var(--focusColor);
 }
 
 /* reflow on mobile */

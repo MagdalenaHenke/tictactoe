@@ -29,7 +29,6 @@ import '../styles/Game.css';
 - keep some tally/leaderboard of how many games were won?
 - push something to local state to allow for refresh?
 - comment in all the components what they do, if you feel like it
-- fix things on firefox at least a little...custom focus states and stuff to look better on firefox
 */
 
 /* Maybe things to do
@@ -50,11 +49,15 @@ function Game() {
   );
   const [difficulty, setDifficulty] = useState(DIFFICULTY.DEFAULT);
   const [computerToken, setComputerToken] = useState(DEFAULT_COMPUTER_TOKEN);
+  const [nextGameDifficulty, setNextGameDifficulty] = useState(
+    DIFFICULTY.DEFAULT
+  );
   const [nextGameComputerToken, setNextGameComputerToken] = useState(
     DEFAULT_COMPUTER_TOKEN
   );
 
   const startNewGame = () => {
+    setDifficulty(nextGameDifficulty);
     setComputerToken(nextGameComputerToken); // LEENA: this really might be nicer with a state reducer
     setBoard(brd.getNewBoard(nextGameComputerToken, difficulty));
   };
@@ -101,8 +104,8 @@ function Game() {
           </div>
           <div className="Game-layout--options">
             <DifficultyPicker
-              difficulty={difficulty}
-              setDifficulty={setDifficulty}
+              difficulty={nextGameDifficulty}
+              setDifficulty={setNextGameDifficulty}
             />
             <StartPlayerPicker
               nextGameComputerToken={nextGameComputerToken}
