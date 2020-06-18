@@ -34,7 +34,7 @@
 }
 
 .RadioGroup [type='radio']:focus + .RadioGroup-check::before {
-  box-shadow: 0 0px 8px grey;
+  box-shadow: 0 0px 0.4rem grey;
 }
 
 .RadioGroup [type='radio']:active + .RadioGroup-check::after {

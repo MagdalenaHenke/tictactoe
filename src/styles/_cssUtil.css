@@ -1,4 +1,5 @@
 /* https://a11yproject.com/posts/how-to-hide-content/ */
+/* for hiding things visually but keeping them screen reader accessible */
 .visually-hidden {
   position: absolute !important;
   height: 1px;
@@ -6,5 +7,5 @@
   overflow: hidden;
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
   clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap; /* added line */
+  white-space: nowrap;
 }

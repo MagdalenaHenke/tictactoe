@@ -10,6 +10,8 @@
   font-family: sans-serif;
 }
 
+/* Note: could have done that with sass but it was easy to keep it css */
 :root {
   --focusColor: lightgrey;
+  --fieldSize: 3rem;
 }

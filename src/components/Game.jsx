@@ -19,7 +19,6 @@ import '../styles/Game.css';
 */
 
 /* Things to do
-- looks like you can use sass. nifty. do that.
 - jest tests?
 - on click, set focus back to the first free element in the board
 - maybe add keyboard interactions? up and down and stuff

@@ -12,7 +12,7 @@
 }
 
 .Board-line {
-  width: 100%; /* LEENA: change this */
+  width: 100%;
   border-bottom: 3px double darkgrey;
   position: absolute;
   top: 0;
@@ -25,27 +25,23 @@
 }
 
 /* below classes position the line to cross through winning line */
-/* LEENA: make line also have a delay when computer won */
-/* LEENA turns out you can totally use sass so probably do some mixin magic
-with that
-https://create-react-app.dev/docs/adding-a-sass-stylesheet/
-*/
 .Board-line--r0 {
-  top: 1.5rem; /* LEENA: do this with button size variable */
+  top: calc(0.5 * var(--fieldSize));
 }
 
 .Board-line--r1 {
-  top: 4.5rem;
+  top: calc(0.5 * var(--fieldSize) + var(--fieldSize));
 }
 
 .Board-line--r2 {
-  top: 7.5rem;
+  top: calc(0.5 * var(--fieldSize) + 2 * var(--fieldSize));
 }
 
+/* awkward 49 to make room for the DOUBLE line */
 .Board-line--c0 {
   transform: rotate(90deg);
   top: 49%;
-  left: -3rem;
+  left: calc(-1 * var(--fieldSize));
 }
 
 .Board-line--c1 {
@@ -56,15 +52,15 @@ https://create-react-app.dev/docs/adding-a-sass-stylesheet/
 .Board-line--c2 {
   transform: rotate(90deg);
   top: 49%;
-  left: 3rem;
+  left: var(--fieldSize);
 }
 
 .Board-line--d0 {
   transform: rotate(45deg);
-  top: 49%; /* awkward 49 to make room for the DOUBLE line */
+  top: 49%;
 }
 
 .Board-line--d1 {
   transform: rotate(-45deg);
-  top: 49%; /* awkward 49 to make room for the DOUBLE line */
+  top: 49%;
 }
