@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import '../styles/Field.css';
 
-// LEENA: think about accessibility - should these be checkboxes?
 function Field({ token, onClick, position, computerToken }) {
   return (
     <button

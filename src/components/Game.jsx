@@ -7,32 +7,6 @@ import StartPlayerPicker from './StartPlayerPicker.jsx';
 import DifficultyPicker from './DifficultyPicker.jsx';
 import '../styles/Game.css';
 
-/* Choices I made
-- choice: x always starts
-- choices made: I'm letting prettier make all of my choices
-- I'm choosing to define all my css myself instead of using bootstrap / bulma...cause I think then there's less bloat
-- I'm not concerned about performance here, because...I don't have to be concerned
-- choice: waiting for a moment before displaying computer turn all happens through css - the board state is updated all in one
-- choice: handling display logic in css and leveraging the power of html over introducing react
-- choice: I'm chosing to only build this for chrome because then I could selfishly use this for learning
-- I'm recalculating things all over. Cause I can.
-- Screen Reader announcements were fun to do
-*/
-
-/* Things to do
-- jest tests?
-- think throuhg all accessibility concerns
-- keep some tally/leaderboard of how many games were won?
-- push something to local state to allow for refresh?
-- comment in all the components what they do, if you feel like it
-*/
-
-/* Maybe things to do
-- do a socket based version
-- allow extending this to bigger boards?
-- considered using styled components because that would have been fuuuuuun
-*/
-
 // This component will
 // - keep track of board state
 // - keep track of whose turn it is

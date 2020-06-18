@@ -1,0 +1,40 @@
+Lenas Notes
+
+Choices I made
+- The biggest choice is that I'm chosing to not overoptimize for performance. I decided to only keep on state what cannot
+  be derived from each other - thus only keeping track of the board itself. From the state of the board, I derive
+  everything necessary (e.g. next player). That's easy to reason about, because things never get "out of sync", and
+  there's less need to pass things around. However, that also means that I'm recalculating stuff all over the place.
+  At this size of application, even with that, we're nowhere near a performance concern. So I decided this is fine.
+- I considered using sass or something to show that I have experience with it, but this was so little css
+  needed, I decided pure css was good enough.
+- I try and leverage the power of html / css instead of adding more logic to React when it makes sense - e.g. in this case,
+  the user and computer moves update the React board state at the same time, but the computer move appears a little later
+  on the screen via css transforms
+- I prioritized accessibility and had some fun thinking through appropriate screen reader announcements.
+- Code layout wise (whitespace and whatnot), I let prettier make all of my choices.
+- I made sure it looks fine on desktop and mobile.
+
+
+What this would definitely need for production:
+- Do unit testing on many of the boardUtil and autoPlayerUtil functions (I'd probably use jest)
+- Styling is not consistent across browsers (e.g. radio buttons use native browser styling)
+- I chose to only care about chrome, because that way, I could use this for playing around with fun things like css
+  custom properties and grid layout. IE is probably horrendously broken.
+
+
+Fun extensions to this:
+- keep some tally/leaderboard of how many games were won
+- push current state to localStorage to survive a page refresh (especially if we keep a tally)
+- do a socket based version that allows you to play against friends
+
+
+Other approaches I considered for finding the "best move":
+1. Find "rules" (like "if the first move is a corner, pick the center")
+     - that's boring because either you end up with a ton of rules that become hard to mathematially argue about
+       or you force games to go in a very limited set of possibilities.
+2. Recursively figure out what the best move is based on whether it'll allow you to force a win
+    - that's what I ended up going with. Runtime isn't ideal (although memoization helps), but it's not a concern at
+      this size
+3. I could have used 2) to build a graph instead of recreating that on the first move, and simply traverse that graph
+   as moves are made.

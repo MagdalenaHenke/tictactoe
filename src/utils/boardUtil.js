@@ -88,9 +88,6 @@ function getWinningLine(board) {
   }
 }
 
-// Leena: these really could/should be javascript classes
-// LEENA: be more thoughtful about what treats the board as immutable and what doesn't
-
 // returns a new board with the next move made at the given index
 const playField = (board, i) => {
   const token = getNextPlayer(board);

@@ -9,7 +9,6 @@
   margin-bottom: 1rem;
 }
 
-/* LEENA: some good old media queries to make this more responsive */
 .Game-layout {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
