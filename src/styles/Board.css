@@ -30,11 +30,11 @@
 }
 
 .Board-line--r1 {
-  top: calc(0.5 * var(--fieldSize) + var(--fieldSize));
+  top: calc(1.5 * var(--fieldSize));
 }
 
 .Board-line--r2 {
-  top: calc(0.5 * var(--fieldSize) + 2 * var(--fieldSize));
+  top: calc(2.5 * var(--fieldSize));
 }
 
 /* awkward 49 to make room for the DOUBLE line */
