@@ -5,7 +5,7 @@ import RadioGroup from './RadioGroup.jsx';
 function DifficultyPicker({ difficulty, setDifficulty }) {
   return (
     <RadioGroup
-      legendText="How hard do you want this to be?"
+      legendText="How hard should the next game be?"
       name="difficultyPicker"
       checkedValue={difficulty}
       onChange={setDifficulty}

@@ -65,10 +65,10 @@ function determineSmartField(board) {
 const whoWillWinThis = (function() {
   const memo = {}; // for memoization
 
-  const memoAndReturn = (board, winner) => {
+  function memoAndReturn(board, winner) {
     memo[board] = winner;
     return winner;
-  };
+  }
 
   function whoWillWinThis(board) {
     if (memo[board] !== undefined) return memo[board];
@@ -108,8 +108,8 @@ const whoWillWinThis = (function() {
       return memoAndReturn(board, nextPlayer);
     }
 
-    // LEENA: Maybe I don't need this!
     // if regardless of what the current player does, they definitely lose
+    // Leena: Note: this isn't important for our game play, because we know
     if (whoWinsIfIPlay.every((winner) => winner === nextPlayer)) {
       return memoAndReturn(board, nextPlayer);
     }
