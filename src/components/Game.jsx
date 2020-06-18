@@ -16,14 +16,11 @@ import '../styles/Game.css';
 - choice: handling display logic in css and leveraging the power of html over introducing react
 - choice: I'm chosing to only build this for chrome because then I could selfishly use this for learning
 - I'm recalculating things all over. Cause I can.
+- Screen Reader announcements were fun to do
 */
 
 /* Things to do
 - jest tests?
-- on click, set focus back to the first free element in the board
-- maybe add keyboard interactions? up and down and stuff
-- on game end, move focus to "start new game" button
-- maybe FINALLY get to play with focus-visible
 - think throuhg all accessibility concerns
 - keep some tally/leaderboard of how many games were won?
 - push something to local state to allow for refresh?
@@ -54,11 +51,13 @@ function Game() {
   const [nextGameComputerToken, setNextGameComputerToken] = useState(
     DEFAULT_COMPUTER_TOKEN
   );
+  const [SRText, setSRText] = useState('');
 
   const startNewGame = () => {
     setDifficulty(nextGameDifficulty);
     setComputerToken(nextGameComputerToken); // LEENA: this really might be nicer with a state reducer
     setBoard(brd.getNewBoard(nextGameComputerToken, difficulty));
+    setSRText(`A new game started.`);
   };
 
   // playing a field is the same as also the computer playing a field
@@ -73,6 +72,7 @@ function Game() {
       }
       return newBoard;
     });
+    setSRText(`You played field ${index + 1}.`);
   };
 
   // maybe just fold these under below?
@@ -93,13 +93,26 @@ function Game() {
       <h1 className="Game-title">Tic Tac Toe</h1>
       <div>
         <div className="Game-layout">
-          <div className="Game-layout--status">{statusText}</div>
+          <div className="Game-layout--status" aria-live="polite">
+            {/* aria-live reads changes to the screen reader to inform about computer moves */}
+            <span>{statusText}</span>
+            <span className="visually-hidden">{SRText}</span>
+            {board.map((field, i) => (
+              <span className="visually-hidden">{`${i + 1} ${field ||
+                'empty'}`}</span>
+            ))}
+          </div>
           <div className="Game-layout--board">
             <Board
               board={board}
               pickField={pickField}
               computerToken={computerToken}
             />
+          </div>
+          <div className="Game-layout--button">
+            <button className="Game-button" onClick={startNewGame}>
+              Start New Game
+            </button>
           </div>
           <div className="Game-layout--options">
             <DifficultyPicker
@@ -110,11 +123,6 @@ function Game() {
               nextGameComputerToken={nextGameComputerToken}
               setNextGameComputerToken={setNextGameComputerToken}
             />
-          </div>
-          <div className="Game-layout--button">
-            <button className="Game-button" onClick={startNewGame}>
-              Start New Game
-            </button>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ function Board({ board, pickField, computerToken }) {
     <fieldset className="Board" disabled={!!winningLine}>
       {/* giving context to button group to screen reader users */}
       <legend className="visually-hidden">
-        TicTacToe fields, numbered 1 - 9, left to right, top to bottom
+        TicTacToe fields, numbered 1 to 9 from left to right, top to bottom
       </legend>
       <div className="Board-grid-wrapper">
         <div className="Board-grid">
