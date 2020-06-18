@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { DEFAULT_COMPUTER_TOKEN, DIFFICULTY } from '../constants/constants';
+import { getOpponent } from '../utils/gameLogicUtil';
+
 import * as autoPlayer from '../utils/autoPlayerUtil';
 import * as brd from '../utils/boardUtil';
 import Board from './Board.jsx';
@@ -54,9 +56,7 @@ function Game() {
   const isBoardFull = brd.isFull(board);
 
   // LEENA: maybe state machine this?
-  let statusText = `You're playing as: ${autoPlayer.getOpponent(
-    computerToken
-  )}`;
+  let statusText = `You're playing as: ${getOpponent(computerToken)}`;
   if (winner)
     statusText = `${winner === computerToken ? 'The computer' : 'You'} won!`;
   else if (isBoardFull) statusText = 'We have a tie!';
