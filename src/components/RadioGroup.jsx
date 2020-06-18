@@ -10,7 +10,6 @@ function RadioGroup({ legendText, checkedValue, name, options, onChange }) {
           <input
             type="radio"
             name={name}
-            className="visually-hidden"
             value={option.value}
             checked={option.value === checkedValue}
             onChange={(evt) => onChange(evt.target.value)}

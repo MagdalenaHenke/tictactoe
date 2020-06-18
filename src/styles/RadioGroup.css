@@ -5,38 +5,6 @@
 .RadioGroup-label {
   position: relative;
   display: block;
-  margin: 0.5rem 0 0.5rem 2rem;
+  margin-left: 1rem;
   text-align: start;
-}
-
-.RadioGroup-check::after {
-  content: '';
-  position: absolute;
-  display: inline-block;
-  left: -1.2rem; /* This will be adjusted */
-  width: 0.7rem;
-  height: 0.7rem;
-  border-radius: 50%;
-  border: 1px solid black;
-  background: transparent;
-}
-
-.RadioGroup [type='radio']:checked + .RadioGroup-check::before {
-  content: '';
-  position: absolute;
-  display: inline-block;
-  left: -1.2rem; /* This will be adjusted */
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  border: 0.15rem solid white;
-  background: grey;
-}
-
-.RadioGroup [type='radio']:focus + .RadioGroup-check::before {
-  box-shadow: 0 0px 0.4rem grey;
-}
-
-.RadioGroup [type='radio']:active + .RadioGroup-check::after {
-  background: var(--focusColor);
 }
