@@ -19,7 +19,6 @@ import '../styles/Game.css';
 */
 
 /* Things to do
-- make layout work on mobile!
 - looks like you can use sass. nifty. do that.
 - jest tests?
 - on click, set focus back to the first free element in the board

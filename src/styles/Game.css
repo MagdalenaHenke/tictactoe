@@ -13,8 +13,8 @@
 .Game-layout {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: auto minmax(12rem, 1fr) auto;
-  grid-gap: 5px;
+  grid-template-rows: auto 1fr auto;
+  grid-gap: 20px 5px;
 }
 
 .Game-layout--status {
@@ -33,10 +33,8 @@
 }
 
 .Game-layout--options {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: left;
+  display: grid;
+  grid-gap: 20px;
 }
 
 .Game-button {
@@ -51,4 +49,21 @@
 .Game-button:focus {
   outline: none;
   background-color: lightgrey;
+}
+
+/* reflow on mobile */
+@media (max-width: 700px) {
+  .Game-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .Game-layout--board {
+    grid-column: auto;
+  }
+
+  .Game-layout--options {
+    /* now you wanna watch out with this for accessibility, but
+    I'm just doing this on mobile */
+    order: 1;
+  }
 }
