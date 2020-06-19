@@ -52,7 +52,7 @@ function Game() {
       <h1 className="Game-title">Tic Tac Toe</h1>
       <div>
         <div className="Game-layout">
-          <div className="Game-layout--status" aria-live="polite">
+          <div className="Game-layout--status">
             <StatusText board={board} computerToken={computerToken} />
           </div>
           <div className="Game-layout--board">

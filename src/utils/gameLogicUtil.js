@@ -62,15 +62,17 @@ function determineSmartField(board) {
 // do it once and pass in a big old dictionary that already has this precomputed.
 // We'd be trading space against runtime. At this scale, neither one is really a concern.
 // But definitely something to keep in mind.
-const whoWillWinThis = (function() {
+const whoWillDefinitelyWinThis = (function() {
   const memo = {}; // for memoization
 
   function memoAndReturn(board, winner) {
+    // uncomment for some good logging
+    // if (!memo[board]) brd.printBoard(board, `Definite winner is: ${winner}`);
     memo[board] = winner;
     return winner;
   }
 
-  function whoWillWinThis(board) {
+  function whoWillDefinitelyWinThis(board) {
     if (memo[board] !== undefined) return memo[board];
 
     const nextPlayer = brd.getNextPlayer(board);
@@ -88,7 +90,7 @@ const whoWillWinThis = (function() {
     const smartField = determineSmartField(board);
     if (smartField !== null) {
       const testBoard = brd.playField(board, smartField);
-      const winner = whoWillWinThis(testBoard);
+      const winner = whoWillDefinitelyWinThis(testBoard);
       return memoAndReturn(board, winner);
     }
 
@@ -97,7 +99,7 @@ const whoWillWinThis = (function() {
       // consider only empty fields
       if (!board[i]) {
         const testBoard = brd.playField(board, i);
-        const winner = whoWillWinThis(testBoard);
+        const winner = whoWillDefinitelyWinThis(testBoard);
         whoWinsIfIPlay.push(winner);
       }
     }
@@ -108,17 +110,24 @@ const whoWillWinThis = (function() {
       return memoAndReturn(board, nextPlayer);
     }
 
-    // if regardless of what the current player does, they definitely lose
-    // Leena: Note: this isn't important for our game play, because we know
-    if (whoWinsIfIPlay.every((winner) => winner === nextPlayer)) {
-      return memoAndReturn(board, nextPlayer);
-    }
-
     // both players will do their best and have a draw
     return memoAndReturn(board, null);
+
+    // why is there no option for the OPPONENT winning?
+    // in our case, games always start from scratch, and the auto player
+    // always makes an optimal move. Other mathy people have proven that
+    // you can always win or force a draw if you play optimally each time.
+    // So we don't come across the option of having the opponent win.
+    // This would be different if we allowed testing "random" boards / switch
+    // difficulty _within_ a game.
   }
 
-  return whoWillWinThis;
+  return whoWillDefinitelyWinThis;
 })();
 
-export { getRandomElement, getOpponent, determineSmartField, whoWillWinThis };
+export {
+  getRandomElement,
+  getOpponent,
+  determineSmartField,
+  whoWillDefinitelyWinThis
+};

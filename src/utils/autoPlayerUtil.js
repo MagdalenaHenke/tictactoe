@@ -2,7 +2,7 @@ import { DIFFICULTY } from '../constants/constants';
 import {
   getRandomElement,
   determineSmartField,
-  whoWillWinThis
+  whoWillDefinitelyWinThis
 } from '../utils/gameLogicUtil';
 import * as brd from '../utils/boardUtil';
 
@@ -35,13 +35,15 @@ function playSmartField(board) {
 function playBestField(board) {
   const nextPlayer = brd.getNextPlayer(board);
 
+  // Note: this could have been just stored as a graph that is being traversed instead
+  // of calculated on the fly
   const boardsWithDefiniteWinsForNextPlayer = [];
   const boardsWithDraws = [];
   for (let i = 0; i < board.length; i++) {
     // only consider empty boards
     if (!board[i]) {
       const testBoard = brd.playField(board, i);
-      const winner = whoWillWinThis(testBoard);
+      const winner = whoWillDefinitelyWinThis(testBoard);
       if (winner === nextPlayer) {
         boardsWithDefiniteWinsForNextPlayer.push(testBoard);
       } else if (winner === null) {
@@ -58,6 +60,10 @@ function playBestField(board) {
     return getRandomElement(boardsWithDraws);
   }
 
+  // this could happen if you start with random boards, for example
+  // (or if I allowed switching difficulty level mid game).
+  // But if the auto player always played optimally from the start,
+  // "mathematically" you can always at least force a draw
   console.log(
     'It thinks that there is no move that allows forcing a draw. We should not have gotten here.'
   );

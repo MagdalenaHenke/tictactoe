@@ -1,4 +1,4 @@
-const PLAYERS = ['X', 'O'];
+const PLAYERS = ['X', 'O']; // have fun with this. Emojis!
 const DEFAULT_COMPUTER_TOKEN = PLAYERS[1];
 
 // Note: can also create these on the fly

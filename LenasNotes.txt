@@ -12,11 +12,13 @@ Choices I made
   the user and computer moves update the React board state at the same time, but the computer move appears a little later
   on the screen via css transforms
 - I prioritized accessibility and had some fun thinking through appropriate screen reader announcements.
-- Code layout wise (whitespace and whatnot), I let prettier make all of my choices.
+- Code formatting wise (whitespace and whatnot), I let prettier make all of my choices.
 - I made sure it looks fine on desktop and mobile.
 
 
+
 What this would definitely need for production:
+- The recursive "whoWillDefinitelyWinThis" function is a bit convoluted and could be cleaned up (I have thoughts on how - into a "wetWinningBoards" function). This solution _works_, but with more time I'd redo this.
 - Do unit testing on many of the boardUtil and autoPlayerUtil functions (I'd probably use jest)
 - Styling is not consistent across browsers (e.g. radio buttons use native browser styling)
 - I chose to only care about chrome, because that way, I could use this for playing around with fun things like css
