@@ -94,27 +94,22 @@ const whoWillDefinitelyWinThis = (function() {
       return memoAndReturn(board, winner);
     }
 
-    let whoWinsIfIPlay = [];
+    // if any of the remaining moves are a definite win for the current player,
+    // we'd play that one and force a win
     for (let i = 0; i < board.length; i++) {
       // consider only empty fields
       if (!board[i]) {
         const testBoard = brd.playField(board, i);
         const winner = whoWillDefinitelyWinThis(testBoard);
-        whoWinsIfIPlay.push(winner);
+        if (winner === nextPlayer) return memoAndReturn(board, nextPlayer);
       }
     }
 
-    // if any of them are a definite win for the current player,
-    // we'd play that one and force a win
-    if (whoWinsIfIPlay.some((winner) => winner === nextPlayer)) {
-      return memoAndReturn(board, nextPlayer);
-    }
-
-    // both players will do their best and have a draw
+    // if both players do their best we have a draw
     return memoAndReturn(board, null);
 
     // why is there no option for the OPPONENT winning?
-    // in our case, games always start from scratch, and the auto player
+    // in our case, games always start _from scratch_, and the auto player
     // always makes an optimal move. Other mathy people have proven that
     // you can always win or force a draw if you play optimally each time.
     // So we don't come across the option of having the opponent win.
