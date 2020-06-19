@@ -14,6 +14,8 @@ Choices I made
 - I prioritized accessibility and had some fun thinking through appropriate screen reader announcements.
 - Code formatting wise (whitespace and whatnot), I let prettier make all of my choices.
 - I made sure it looks fine on desktop and mobile.
+- My gameLogicFunctions for the hard mode are set to deal with valid board states only, the ones where the autoplayer has always made
+  the optimal move until now. They could be changed to find optimal moves also for e.g. randomly generated boards, but I chose to not prioritize that.
 
 
 
@@ -21,8 +23,8 @@ What this would definitely need for production:
 - The recursive "whoWillDefinitelyWinThis" function is a bit convoluted and could be cleaned up (I have thoughts on how - into a "wetWinningBoards" function). This solution _works_, but with more time I'd redo this.
 - Do unit testing on many of the boardUtil and autoPlayerUtil functions (I'd probably use jest)
 - Styling is not consistent across browsers (e.g. radio buttons use native browser styling)
-- I chose to only care about chrome, because that way, I could use this for playing around with fun things like css
-  custom properties and grid layout. IE is probably horrendously broken.
+- I chose to optimize for chrome, because that way, I could use this for playing around with fun modern browser things like css
+  custom properties and grid layout. Some of those are not supported by IE.
 
 
 Fun extensions to this:
