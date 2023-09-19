@@ -2,6 +2,7 @@
 A simple single-player tic-tac-toe game based on React.
 
 A live version is deployed at https://tictictactactoetoe.herokuapp.com/
+(Well, was deployed there before Heroku made the hobby plan not free anymore... :) )
 
 Notes and thoughts about implementation choices and further work in https://github.com/MagdalenaHenke/tictactoe/blob/master/LenasNotes.txt
 
